@@ -216,71 +216,237 @@ def modflow(code_dir,model_dir,nam_file,logfile):
 #
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 
-def many2one(code_dir, file_in, results_dir, logfile):
+def many2one(code_dir, file_in, many2one_log, results_dir, logfile):
     # !!! LEFT HERE !!! PMB
     # !!! SEPARATE FILES INTO HERE AND TWOARRAY !!! READ FROM INFILE TO DETERMINE FILES TO DELETE !!!
     # !!! HANDLE ERROR CHECKING AND RETURN !!!
-    layer1_simHeads_sp1 = os.path.join(postproc_dh_cwd,'layer1_simHeads_sp1.asc')
-    layer3_simHeads_sp1 = os.path.join(postproc_dh_cwd,'layer3_simHeads_sp1.asc')
-    layer1_simHeads_sp2 = os.path.join(postproc_dh_cwd,'layer1_simHeads_sp2.asc')
-    layer3_simHeads_sp2 = os.path.join(postproc_dh_cwd,'layer3_simHeads_sp2.asc')
-    many2one_log = os.path.join(postproc_dh_results,'many2one.log')
-    twoarray_lay1_log = os.path.join(postproc_dh_cwd,'twoarray_dh_layer1.log')
-    twoarray_lay3_log = os.path.join(postproc_dh_cwd,'twoarray_dh_layer3.log')
-    dh_lyr1 = os.path.join(postproc_dh_cwd,'dh_lyr1.asc')
-    dh_lyr3 = os.path.join(postproc_dh_cwd,'dh_lyr3.asc')
-    dh_lyr1_tableFormat = os.path.join(postproc_dh_cwd,'dh_lyr1_tableFormat.csv')
-    dh_lyr3_tableFormat = os.path.join(postproc_dh_cwd,'dh_lyr3_tableFormat.csv')
     
-    currentmessage = ('\n\n\t--- Deleting old files prior to processing ---\n')
+    currentmessage = ('\n\n\t--- Deleting preexisting output files prior to processing ---\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-
-    # Delete files that will be created again, if they exist
-    deletefile(layer1_simHeads_sp1,logfile)
-    deletefile(layer3_simHeads_sp1,logfile)
-    deletefile(layer1_simHeads_sp2,logfile)
-    deletefile(layer3_simHeads_sp2,logfile)
-    deletefile(many2one_log, logfile)
-    deletefile(twoarray_lay1_log,logfile)
-    deletefile(twoarray_lay3_log,logfile)
-    deletefile(dh_lyr1,logfile)
-    deletefile(dh_lyr3,logfile)
-    deletefile(dh_lyr1_tableFormat,logfile)
-    deletefile(dh_lyr3_tableFormat,logfile)
+    
+    #layer1_simHeads_sp1 = os.path.join(postproc_dh_cwd,'layer1_simHeads_sp1.asc')
+    #layer3_simHeads_sp1 = os.path.join(postproc_dh_cwd,'layer3_simHeads_sp1.asc')
+    #layer1_simHeads_sp2 = os.path.join(postproc_dh_cwd,'layer1_simHeads_sp2.asc')
+    #layer3_simHeads_sp2 = os.path.join(postproc_dh_cwd,'layer3_simHeads_sp2.asc')
+#    deletefile(layer1_simHeads_sp1,logfile)
+#    deletefile(layer3_simHeads_sp1,logfile)
+#    deletefile(layer1_simHeads_sp2,logfile)
+#    deletefile(layer3_simHeads_sp2,logfile)
+    
+    # Input file format
+    #--------
+    #L0  nfseg_auto.hds
+    #L1  f
+    #L2  y
+    #L3  layer1_simHeads_sp1.asc
+    #L4  f
+    #L5  n
+    #L6  y
+    #L7  layer3_simHeads_sp1.asc
+    #L8  f
+    #L9  n
+    #L10 n
+    #L11 n
+    #L12 n
+    #L13 y
+    #L14 layer1_simHeads_sp2.asc
+    #L15 f
+    #L16 n
+    #L17 y
+    #L18 layer3_simHeads_sp2.asc
+    #--------
+    # Read the output filenames from the input file
+    # Proceed with deleting preexisting output files that will be recreated
+    with open(file_in,'r') as fin:
+        for i,line in enumerate(fin):
+            if (i==3 or i==7 or i==14 or i==18):
+                outfile = os.path.join(results_dir,line.rstrip())
+                deletefile(outfile,logfile)
+            #
+        #
+    #
+    
+    
+    # Change the working directory to where all the model
+    # files are located, then run many2one.
+    # Change back when done.
+    prevdir = os.getcwd()
+    cd(results_dir)
+    
+    
+    # Setup the full PATH to the executable
+    exe = os.path.join(code_dir,'many2one.exe')
+    
+    errlist = mydef.ErrorListValues()
     
     try:
-        # Setup the full PATH to the executable
-        exe = os.path.join(code_dir,'many2one.exe')
-        
-        # Setup the input file for reading into STDIN
-        # fin = open(file_in,'r')
-        
-        # Setup the log output file for writing from STDOUT
-        # fout = open(logfile,'w')
-        
         # Define the executable process
         # The [] contains: [executable, option_arg_1, option_arg_2, etc.]
-        p = subprocess.Popen([exe],
-                             stdout = logfile,
-                             stdin = file_in,
-                             stderr = subprocess.STDOUT)
+        p = subprocess.Popen([exe,file_in],
+                             stdout = subprocess.PIPE,
+                             stdin = subprocess.PIPE,
+                             stderr = subprocess.PIPE)
+        
         
         # Execute the code with any command-line arguments
+        # Syntax: p.communicate(stdin)
         # Returns a tuple (stdoutdata, stderrdata)
-        execution = p.communicate()
+        standardout, standarderror = p.communicate()
         
-        print (execution[0])
-    except OSError:
-        error_message = ('\n\n\nERROR:\tThere was a problem ' +
-                         'running the PEST utility many2one!\n\n' +
-                         execution[1])
-        raise OSError(error_message)
-    except Exception:
-        raise
+        # Raise an exception if an error occurs
+        #   - Check for error keywords
+        #   - Check the subprocess returncode
+        #   - Check if any output was given to stderr
+        error_flag = False
+        for erritem in errlist.ErrorList:
+            stdoutindex = standardout.find(erritem)
+            stderrindex = standardout.find(erritem)
+            #print ('Stdoutindex {}; Stderrindex {}\n'.format(stdoutindex,stderrindex))
+            if (stdoutindex != -1 or stderrindex != -1):
+                error_flag=True
+                break
+            # END if
+        # END for over erritem
+        if (p.returncode != 0 or standarderror or error_flag):
+            currentmessage= ('ERROR:\t' +
+                             'There was a problem running the ' +
+                             'PEST utility many2one!\n' +
+                             '\tBelow is the report:\n' +
+                             'Error code: {}\n'.format(p.returncode) +
+                             'Standard Out:\n{}\n'.format(standardout))
+            with open(logfile,'a') as lf: lf.write(currentmessage)
+            error_message = standarderror
+            raise ValueError(error_message)
+    except ValueError as VError:
+        #raise
+        with open(logfile,'a') as lf: lf.write('{}'.format(VError))
+        return False
+    else: # All went well. Write the output to the logfiles and move on
+        with open(many2one_log,'w') as fout:
+            fout.write('{}\n'.format(standardout))
+        #
+        with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
+    # END try
+    
+    cd(prevdir)
+    
+    return True
+
+# ooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+
+# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+#
+# Run PEST Process twoarray
+#
+# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+
+def twoarray(code_dir, file_in, twoarraylog, results_dir, logfile):
+    # !!! LEFT HERE !!! PMB
+    # !!! HANDLE ERROR CHECKING AND RETURN !!!
+    
+    currentmessage = ('\n\n\t--- Deleting preexisting output files prior to processing ---\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
+    #dh_lyr1 = os.path.join(postproc_dh_cwd,'dh_lyr1.asc')
+    #dh_lyr3 = os.path.join(postproc_dh_cwd,'dh_lyr3.asc')
+    
+    # Delete files that will be created again, if they exist
+    #deletefile(dh_lyr1,logfile)
+    #deletefile(dh_lyr3,logfile)
+    
+    # EX. Input file format
+    #--------
+    #L0  model_ft.spc
+    #L1  layer1_simHeads_sp2.asc
+    #L2  f
+    #L3  
+    #L4  layer1_simHeads_sp1.asc
+    #L5  f
+    #L6  
+    #L7  s
+    #L8  dh_lyr1.asc
+    #L9  f
+    #--------
+    # Read the output filenames from the input file
+    # Proceed with deleting preexisting output files that will be recreated
+    with open(file_in,'r') as fin:
+        for i,line in enumerate(fin):
+            if (i==8):
+                outfile = os.path.join(results_dir,line.rstrip())
+                deletefile(outfile,logfile)
+            #
+        #
+    #
     
     
-    return
+    # Change the working directory to where all the model
+    # files are located, then run twoarray.
+    # Change back when done.
+    prevdir = os.getcwd()
+    cd(results_dir)
+    
+    
+    # Setup the full PATH to the executable
+    exe = os.path.join(code_dir,'twoarray.exe')
+    
+    errlist = mydef.ErrorListValues()
+    
+    try:
+        # Define the executable process
+        # The [] contains: [executable, option_arg_1, option_arg_2, etc.]
+        p = subprocess.Popen([exe,file_in],
+                             stdout = subprocess.PIPE,
+                             stdin = subprocess.PIPE,
+                             stderr = subprocess.PIPE)
+        
+        
+        # Execute the code with any command-line arguments
+        # Syntax: p.communicate(stdin)
+        # Returns a tuple (stdoutdata, stderrdata)
+        standardout, standarderror = p.communicate()
+        
+        # Raise an exception if an error occurs
+        #   - Check for error keywords
+        #   - Check the subprocess returncode
+        #   - Check if any output was given to stderr
+        error_flag = False
+        for erritem in errlist.ErrorList:
+            stdoutindex = standardout.find(erritem)
+            stderrindex = standardout.find(erritem)
+            #print ('Stdoutindex {}; Stderrindex {}\n'.format(stdoutindex,stderrindex))
+            if (stdoutindex != -1 or stderrindex != -1):
+                error_flag=True
+                break
+            # END if
+        # END for over erritem
+        if (p.returncode != 0 or standarderror or error_flag):
+            currentmessage= ('ERROR:\t' +
+                             'There was a problem running the ' +
+                             'PEST utility twoarray!\n' +
+                             '\tBelow is the report:\n' +
+                             'Error code: {}\n'.format(p.returncode) +
+                             'Standard Out:\n{}\n'.format(standardout))
+            with open(logfile,'a') as lf: lf.write(currentmessage)
+            error_message = standarderror
+            raise ValueError(error_message)
+    except ValueError as VError:
+        #raise
+        with open(logfile,'a') as lf: lf.write('{}'.format(VError))
+        return False
+    else: # All went well. Write the output to the logfiles and move on
+        with open(twoarraylog,'w') as fout:
+            fout.write('{}\n'.format(standardout))
+        #
+        with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
+    # END try
+    
+    cd(prevdir)
+    
+    return True
 
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
