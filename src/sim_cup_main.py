@@ -499,15 +499,19 @@ while continueloop:
     #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_lay3_log
     
     
+    # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
     dh_lyr1_tableFormat = os.path.join(postproc_dh_results,'dh_lyr1_tableFormat.csv')
     dh_lyr3_tableFormat = os.path.join(postproc_dh_results,'dh_lyr3_tableFormat.csv')
     bscut.deletefile(dh_lyr1_tableFormat,logfile)
     bscut.deletefile(dh_lyr3_tableFormat,logfile)
     
+    array_spec_in = os.path.join(postproc_deffiles_dh,'array_reader.spc')
+    array_file_names_in = os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
+    
     currentmessage = ('\n\nStarting ReadModflowFloatArrays.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    ReadModflowFloatArrays.main(logfile)
+    ReadModflowFloatArrays.main(postproc_dh_results, array_spec_in, array_file_names_in, logfile)
     # =======================================
 
 
