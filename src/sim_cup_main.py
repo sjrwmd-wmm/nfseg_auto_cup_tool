@@ -480,7 +480,7 @@ while continueloop:
     # !!! LEFT OFF HERE !!! PMB
     many2one_infile = os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp')
     many2one_log = os.path.join(postproc_dh_results,'many2one.log')
-    deletefile(many2one_log, logfile)
+    bscut.deletefile(many2one_log, logfile)
     if not bscut.many2one(src_postprocess_dir,many2one_infile,many2one_log,postproc_dh_results,logfile): continue
     #many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one_log
     
@@ -489,8 +489,8 @@ while continueloop:
     twoarray_infile_lay3 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp')
     twoarray_lay1_log = os.path.join(postproc_dh_results,'twoarray_dh_layer1.log')
     twoarray_lay3_log = os.path.join(postproc_dh_results,'twoarray_dh_layer3.log')
-    deletefile(twoarray_lay1_log,logfile)
-    deletefile(twoarray_lay3_log,logfile)
+    bscut.deletefile(twoarray_lay1_log,logfile)
+    bscut.deletefile(twoarray_lay3_log,logfile)
     if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay1,twoarray_lay1_log,postproc_dh_results,logfile): continue
     if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay3,twoarray_lay3_log,postproc_dh_results,logfile): continue
     #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_lay1_log
@@ -499,8 +499,8 @@ while continueloop:
     
     dh_lyr1_tableFormat = os.path.join(postproc_dh_results,'dh_lyr1_tableFormat.csv')
     dh_lyr3_tableFormat = os.path.join(postproc_dh_results,'dh_lyr3_tableFormat.csv')
-    deletefile(dh_lyr1_tableFormat,logfile)
-    deletefile(dh_lyr3_tableFormat,logfile)
+    bscut.deletefile(dh_lyr1_tableFormat,logfile)
+    bscut.deletefile(dh_lyr3_tableFormat,logfile)
     
     currentmessage = ('\n\nStarting ReadModflowFloatArrays.py . . .\n')
     print (currentmessage)
