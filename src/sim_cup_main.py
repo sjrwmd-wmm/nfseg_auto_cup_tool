@@ -18,10 +18,13 @@ import shutil
 
 # Import tool libraries
 # ================================
+# Find way to src directory
+src_dir = '/'.join(os.getcwd().split('\\'))
+src_dir = os.path.join(src_dir,'src')
 # Insert the PATH to internal python scripts
-src_utilities_dir = 'src\utilities'
-src_preprocess_dir = 'src\preprocess'
-src_postprocess_dir = 'src\postprocess'
+src_utilities_dir = os.path.join(src_dir,'utilities')
+src_preprocess_dir = os.path.join(src_dir,'preprocess')
+src_postprocess_dir = os.path.join(src_dir,'postprocess')
 sys.path.insert(0,src_utilities_dir)
 sys.path.insert(0,src_preprocess_dir)
 sys.path.insert(0,src_postprocess_dir)
