@@ -361,7 +361,7 @@ while continueloop:
     #                       ,logfile)): continue
     
     if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.hds')
-                           ,os.path.join(postproc_dh_results,'nfseg_auto.lst')
+                           ,os.path.join(postproc_dh_results,'nfseg_auto.hds')
                            ,logfile)): continue
     
     # Define a name for the list file output from MODFLOW after it is copied
