@@ -354,14 +354,14 @@ while continueloop:
     # Copy MODFLOW results to postprocessing directories
     # TODO: Change the functions to use one copied to the results directory
     if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.lst')
-                           ,os.path.join(postproc_dQ_cwd,'nfseg_auto.lst')
+                           ,os.path.join(postproc_dQ_results,'nfseg_auto.lst')
                            ,logfile)): continue
     #if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.lst')
     #                       ,os.path.join(postproc_budget_cwd,'nfseg_auto.lst')
     #                       ,logfile)): continue
     
     if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.hds')
-                           ,os.path.join(postproc_dh_cwd,'nfseg_auto.lst')
+                           ,os.path.join(postproc_dh_results,'nfseg_auto.lst')
                            ,logfile)): continue
     
     # Define a name for the list file output from MODFLOW after it is copied
