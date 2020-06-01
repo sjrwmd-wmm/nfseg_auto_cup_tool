@@ -376,7 +376,6 @@ while continueloop:
                            ,listfile
                            ,logfile)): continue
     
-    print ('checkpoint 4\n')
     # ---------------------------------------
     # Begin generating the budget check reports
     # ---------------------------------------
