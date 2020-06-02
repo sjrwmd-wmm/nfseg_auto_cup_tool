@@ -279,6 +279,7 @@ def read_arrays(array_spec_in, array_file_names_in, results_dir, logfile):
     with open(array_file_names_in, 'r') as f:
         for line in f:
             array_layer, array_file_name = line.rstrip().split(',')
+            array_file_name = os.path.join(results_dir,array_file_name)
             
             currentmessage = ('\tprocessing array %s\n' % (array_file_name))
             print (currentmessage)
