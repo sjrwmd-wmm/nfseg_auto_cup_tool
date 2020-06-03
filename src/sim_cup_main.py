@@ -476,10 +476,21 @@ while continueloop:
 
     #cd ..\dH
     
+    
+    # Add symlinks to specification files needed for the PEST utilities
+    # these can be removed after the PEST utilities run
+    os.symlink(os.path.join(postproc_deffiles_dh,'array_reader.spc'),os.path.join(postproc_dh_results,'array_reader.spc'))
+    os.symlink(os.path.join(postproc_deffiles_dh,'model_ft.spc'),os.path.join(postproc_dh_results,'model_ft.spc'))
+    os.symlink(os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc'),os.path.join(postproc_dh_results,'sim_head_arrays_file_names.asc'))
+    os.symlink(os.path.join(postproc_deffiles_dh,'files.fig'),os.path.join(postproc_dh_results,'files.fig'))
+    os.symlink(os.path.join(postproc_deffiles_dh,'pest_gwutil_gridSpecificationFile.spc'),os.path.join(postproc_dh_results,'pest_gwutil_gridSpecificationFile.spc'))
+    os.symlink(os.path.join(postproc_deffiles_dh,'settings.fig'),os.path.join(postproc_dh_results,'settings.fig'))
+    #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp'),os.path.join(postproc_dh_results,'twoarray_dh_layer1_nfseg.inp'))
+    #os.symlink(os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp'),    os.path.join(postproc_dh_results,'many2one_layers1_and_3_hds_nfseg.inp'))
+    #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp'),os.path.join(postproc_dh_results,'twoarray_dh_layer3_nfseg.inp'))
+    
     # Postprocess using PEST utilities
     
-    
-    # !!! LEFT OFF HERE !!! PMB
     many2one_infile = os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp')
     many2one_log = os.path.join(postproc_dh_results,'many2one.log')
     bscut.deletefile(many2one_log, logfile)

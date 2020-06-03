@@ -217,11 +217,8 @@ def modflow(code_dir,model_dir,nam_file,logfile):
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 
 def many2one(code_dir, file_in, many2one_log, results_dir, logfile):
-    # !!! LEFT HERE !!! PMB
-    # !!! SEPARATE FILES INTO HERE AND TWOARRAY !!! READ FROM INFILE TO DETERMINE FILES TO DELETE !!!
-    # !!! HANDLE ERROR CHECKING AND RETURN !!!
     
-    currentmessage = ('\n\n\t--- Deleting preexisting output files prior to processing ---\n')
+    currentmessage = ('\n\nEntering PEST many2one\n\t--- Deleting preexisting output files prior to processing ---\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
@@ -344,10 +341,8 @@ def many2one(code_dir, file_in, many2one_log, results_dir, logfile):
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 
 def twoarray(code_dir, file_in, twoarraylog, results_dir, logfile):
-    # !!! LEFT HERE !!! PMB
-    # !!! HANDLE ERROR CHECKING AND RETURN !!!
     
-    currentmessage = ('\n\n\t--- Deleting preexisting output files prior to processing ---\n')
+    currentmessage = ('\n\nEntering PEST twoarray\n\t--- Deleting preexisting output files prior to processing ---\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
