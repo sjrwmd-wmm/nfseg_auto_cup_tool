@@ -477,14 +477,26 @@ while continueloop:
     #cd ..\dH
     
     
-    # Add symlinks to specification files needed for the PEST utilities
+    # Copy specification files needed for the PEST utilities
     # these can be removed after the PEST utilities run
-    os.symlink(os.path.join(postproc_deffiles_dh,'array_reader.spc'),os.path.join(postproc_dh_results,'array_reader.spc'))
-    os.symlink(os.path.join(postproc_deffiles_dh,'model_ft.spc'),os.path.join(postproc_dh_results,'model_ft.spc'))
-    os.symlink(os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc'),os.path.join(postproc_dh_results,'sim_head_arrays_file_names.asc'))
-    os.symlink(os.path.join(postproc_deffiles_dh,'files.fig'),os.path.join(postproc_dh_results,'files.fig'))
-    os.symlink(os.path.join(postproc_deffiles_dh,'pest_gwutil_gridSpecificationFile.spc'),os.path.join(postproc_dh_results,'pest_gwutil_gridSpecificationFile.spc'))
-    os.symlink(os.path.join(postproc_deffiles_dh,'settings.fig'),os.path.join(postproc_dh_results,'settings.fig'))
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'array_reader.spc')
+                           ,os.path.join(postproc_dh_results,'array_reader.spc')
+                           ,logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'model_ft.spc')
+                           ,os.path.join(postproc_dh_results,'model_ft.spc')
+                           ,logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
+                           ,os.path.join(postproc_dh_results,'sim_head_arrays_file_names.asc')
+                           ,logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'files.fig')
+                           ,os.path.join(postproc_dh_results,'files.fig')
+                           ,logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'pest_gwutil_gridSpecificationFile.spc')
+                           ,os.path.join(postproc_dh_results,'pest_gwutil_gridSpecificationFile.spc')
+                           ,logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'settings.fig')
+                           ,os.path.join(postproc_dh_results,'settings.fig')
+                           ,logfile)): continue
     #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp'),os.path.join(postproc_dh_results,'twoarray_dh_layer1_nfseg.inp'))
     #os.symlink(os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp'),    os.path.join(postproc_dh_results,'many2one_layers1_and_3_hds_nfseg.inp'))
     #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp'),os.path.join(postproc_dh_results,'twoarray_dh_layer3_nfseg.inp'))
@@ -509,6 +521,13 @@ while continueloop:
     #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_lay1_log
     #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_lay3_log
     
+    # Delete the specification files from the results dir
+    bscut.deletefile(os.path.join(postproc_dh_results,'array_reader.spc'),logfile)
+    bscut.deletefile(os.path.join(postproc_dh_results,'model_ft.spc'),logfile)
+    bscut.deletefile(os.path.join(postproc_dh_results,'sim_head_arrays_file_names.asc'),logfile)
+    bscut.deletefile(os.path.join(postproc_dh_results,'files.fig'),logfile)
+    bscut.deletefile(os.path.join(postproc_dh_results,'pest_gwutil_gridSpecificationFile.spc'),logfile)
+    bscut.deletefile(os.path.join(postproc_dh_results,'settings.fig'),logfile)
     
     # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
     dh_lyr1_tableFormat = os.path.join(postproc_dh_results,'dh_lyr1_tableFormat.csv')
