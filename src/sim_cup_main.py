@@ -18,9 +18,10 @@ import shutil
 
 # Import tool libraries
 # ================================
+# Get the current working directory
+cur_working_dir = '/'.join(os.getcwd().split('\\'))
 # Find way to src directory
-src_dir = '/'.join(os.getcwd().split('\\'))
-src_dir = os.path.join(src_dir,'src')
+src_dir = os.path.join(cur_working_dir,'src')
 # Insert the PATH to internal python scripts
 src_utilities_dir = os.path.join(src_dir,'utilities')
 src_preprocess_dir = os.path.join(src_dir,'preprocess')
@@ -114,7 +115,10 @@ while continueloop:
     basename = '.'.join(INPUT_FILE.split('.')[:-1])
     #
     # Name the logfile that will capture all events
-    logfile = (basename+'.log')
+    # Replace existing logfile or start a new one
+    # TODO: this needs to move to the results directory
+    logfile = (os.path.join(cur_working_dir,basename+'.log'))
+    if os.path.isfile(logfile): os.remove(logfile)
     # -----------------------------------------------------
     
     
@@ -179,10 +183,7 @@ while continueloop:
     # =====================================================
     # Define the working and results directories
     # =====================================================
-
-    # Get the current working directory
-    cur_working_dir = '/'.join(os.getcwd().split('\\'))
-
+    
     # Define the GIS directory
     # TODO: Get the gis name capitalized
     gis_dir = os.path.join(cur_working_dir,'gis')
