@@ -174,6 +174,7 @@ def modflow(code_dir,model_dir,nam_file,logfile):
         #   - Check for error keywords
         #   - Check the subprocess returncode
         #   - Check if any output was given to stderr
+        # TODO: Change the stderrindex to look like many2one
         error_flag = False
         for erritem in errlist.ErrorList:
             stdoutindex = standardout.find(erritem)
@@ -280,16 +281,19 @@ def many2one(code_dir, file_in, many2one_log, results_dir, logfile):
     try:
         # Define the executable process
         # The [] contains: [executable, option_arg_1, option_arg_2, etc.]
-        p = subprocess.Popen([exe,file_in],
-                             stdout = subprocess.PIPE,
-                             stdin = subprocess.PIPE,
-                             stderr = subprocess.PIPE)
+        #stdin = subprocess.PIPE,
+        with open(file_in,'r') as fin:
+            p = subprocess.Popen([exe],
+                                 stdout = subprocess.PIPE,
+                                 stdin = fin,
+                                 stderr = subprocess.PIPE)
         
         
         # Execute the code with any command-line arguments
         # Syntax: p.communicate(stdin)
         # Returns a tuple (stdoutdata, stderrdata)
         standardout, standarderror = p.communicate()
+        
         
         # Raise an exception if an error occurs
         #   - Check for error keywords
@@ -298,21 +302,22 @@ def many2one(code_dir, file_in, many2one_log, results_dir, logfile):
         error_flag = False
         for erritem in errlist.ErrorList:
             stdoutindex = standardout.find(erritem)
-            stderrindex = standardout.find(erritem)
+            stderrindex = standarderror.find(erritem)
             #print ('Stdoutindex {}; Stderrindex {}\n'.format(stdoutindex,stderrindex))
             if (stdoutindex != -1 or stderrindex != -1):
                 error_flag=True
                 break
             # END if
         # END for over erritem
-        if (p.returncode != 0 or standarderror or error_flag):
+        if (p.returncode != 0 or error_flag):
             currentmessage= ('ERROR:\t' +
                              'There was a problem running the ' +
                              'PEST utility many2one!\n' +
                              '\tBelow is the report:\n' +
                              'Error code: {}\n'.format(p.returncode) +
                              'Standard Out:\n{}\n'.format(standardout))
-            with open(logfile,'a') as lf: lf.write(currentmessage)
+            print (currentmessage)
+            with open(logfile,'a') as lf: lf.write('{}'.format(currentmessage))
             error_message = standarderror
             raise ValueError(error_message)
     except ValueError as VError:
@@ -323,7 +328,12 @@ def many2one(code_dir, file_in, many2one_log, results_dir, logfile):
         with open(many2one_log,'w') as fout:
             fout.write('{}\n'.format(standardout))
         #
-        with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
+        #with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
+        
+        currentmessage = ('\n\tmany2one successful!\toutput written to: {}'.format(many2one_log))
+        #print (currentmessage)
+        with open(logfile,'a') as lf: lf.write('{}\n'.format(currentmessage))
+        
     # END try
     
     cd(prevdir)
@@ -393,16 +403,19 @@ def twoarray(code_dir, file_in, twoarraylog, results_dir, logfile):
     try:
         # Define the executable process
         # The [] contains: [executable, option_arg_1, option_arg_2, etc.]
-        p = subprocess.Popen([exe,file_in],
-                             stdout = subprocess.PIPE,
-                             stdin = subprocess.PIPE,
-                             stderr = subprocess.PIPE)
+        #stdin = subprocess.PIPE,
+        with open(file_in,'r') as fin:
+            p = subprocess.Popen([exe],
+                                 stdout = subprocess.PIPE,
+                                 stdin = fin,
+                                 stderr = subprocess.PIPE)
         
         
         # Execute the code with any command-line arguments
         # Syntax: p.communicate(stdin)
         # Returns a tuple (stdoutdata, stderrdata)
         standardout, standarderror = p.communicate()
+        
         
         # Raise an exception if an error occurs
         #   - Check for error keywords
@@ -411,21 +424,22 @@ def twoarray(code_dir, file_in, twoarraylog, results_dir, logfile):
         error_flag = False
         for erritem in errlist.ErrorList:
             stdoutindex = standardout.find(erritem)
-            stderrindex = standardout.find(erritem)
+            stderrindex = standarderror.find(erritem)
             #print ('Stdoutindex {}; Stderrindex {}\n'.format(stdoutindex,stderrindex))
             if (stdoutindex != -1 or stderrindex != -1):
                 error_flag=True
                 break
             # END if
         # END for over erritem
-        if (p.returncode != 0 or standarderror or error_flag):
+        if (p.returncode != 0 or error_flag):
             currentmessage= ('ERROR:\t' +
                              'There was a problem running the ' +
                              'PEST utility twoarray!\n' +
                              '\tBelow is the report:\n' +
                              'Error code: {}\n'.format(p.returncode) +
                              'Standard Out:\n{}\n'.format(standardout))
-            with open(logfile,'a') as lf: lf.write(currentmessage)
+            print (currentmessage)
+            with open(logfile,'a') as lf: lf.write('{}'.format(currentmessage))
             error_message = standarderror
             raise ValueError(error_message)
     except ValueError as VError:
@@ -436,7 +450,12 @@ def twoarray(code_dir, file_in, twoarraylog, results_dir, logfile):
         with open(twoarraylog,'w') as fout:
             fout.write('{}\n'.format(standardout))
         #
-        with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
+        #with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
+        
+        currentmessage = ('\n\ttwoarray successful!\toutput written to: {}'.format(twoarraylog))
+        #print (currentmessage)
+        with open(logfile,'a') as lf: lf.write('{}\n'.format(currentmessage))
+        
     # END try
     
     cd(prevdir)
