@@ -555,11 +555,15 @@ while continueloop:
     # echo copy dh_template.mxd dh.mxd
 
     # Need to delete the old dh.gdb directory before running make_ArcGIS_table_from_csv.py !!! PMB
-
+    
+    # Define the name for a new set of grid feature classes
+    # TODO: this name either needs to be generic or be part of input file
+    grid_featureclass = os.path.join(postproc_dh_results,'nfseg_v1_1_grid')
+    
     currentmessage = ('\n\nStarting make_ArcGIS_table_from_csv.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    make_ArcGIS_table_from_csv.main()  # !!! PMB !!! Need to pass logfile into function
+    make_ArcGIS_table_from_csv.main(postproc_dh_results, gis_dir, grid_featureclass, logfile)
 
 
     currentmessage = ('\n\tCompleted dh processing\n')
