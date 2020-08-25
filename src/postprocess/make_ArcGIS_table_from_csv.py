@@ -32,17 +32,17 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
     
     if arcpy.Exists(my_gdb):
         arcpy.Delete_management(my_gdb)
-
+    
     arcpy.CreateFileGDB_management(currentworkingdir, 'dh.gdb')
     arcpy.env.workspace = my_gdb
-
+    
     #cup_gdb = os.path.realpath('..\..\gis\cup.gdb')
     cup_gdb = os.path.join(gis_dir,'cup.gdb')
-
-
+    
+    
     # Setup the new set of grid feature class
     #grid_featureclass = "nfseg_v1_1_grid"
-
+    
     if arcpy.Exists(grid_featureclass):
         currentmessage = ("\tThe grid_featureclass exists...deleting now to make new...\n")
         print (currentmessage)
@@ -102,7 +102,7 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
         with open(logfile,'a') as lf: lf.write(currentmessage)
         #
         arcpy.AddJoin_management(grid_layer,"cell_address_2d",dh_label,"cellAddress2D")
-
+        
         currentmessage = ('\tTransfer data from table to feature class\n')
         print (currentmessage)
         with open(logfile,'a') as lf: lf.write(currentmessage)
