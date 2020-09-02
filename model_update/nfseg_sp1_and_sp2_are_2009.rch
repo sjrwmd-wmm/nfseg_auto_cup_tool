@@ -1,0 +1,7 @@
+# MODFLOW2000 Recharge Package
+PARAMETER  0
+ 3  0
+ 1 1
+OPEN/CLOSE 'recharge_mul_2009.ref'  1.0  '(FREE)'  -1             RECHARGE
+ 1 0
+OPEN/CLOSE 'recharge_mul_2009.ref'  1.0  '(FREE)'  -1             RECHARGE

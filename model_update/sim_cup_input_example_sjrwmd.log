@@ -1,0 +1,475 @@
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/03/25 13:06:34
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/03/25 13:11:47
+ Elapsed run time:  5 Minutes, 13.122 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 15:45:28
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 15:50:54
+ Elapsed run time:  5 Minutes, 26.066 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 16:18:23
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 16:23:51
+ Elapsed run time:  5 Minutes, 27.275 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 16:36:46
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 16:41:53
+ Elapsed run time:  5 Minutes,  6.991 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 16:49:05
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/13 16:54:11
+ Elapsed run time:  5 Minutes,  5.528 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/14 17:38:40
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/14 17:43:49
+ Elapsed run time:  5 Minutes,  8.782 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 14:13:45
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 14:19:03
+ Elapsed run time:  5 Minutes, 18.435 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 15:29:10
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 15:34:33
+ Elapsed run time:  5 Minutes, 23.391 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 16:40:02
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 16:45:13
+ Elapsed run time:  5 Minutes, 10.978 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 17:25:26
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/18 17:30:36
+ Elapsed run time:  5 Minutes,  9.878 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/19 17:30:57
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/19 17:36:25
+ Elapsed run time:  5 Minutes, 28.072 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/20 12:56:33
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/20 13:01:49
+ Elapsed run time:  5 Minutes, 16.487 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/20 13:08:39
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/20 13:13:50
+ Elapsed run time:  5 Minutes, 10.761 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/05/20 17:20:42
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/05/20 17:25:54
+ Elapsed run time:  5 Minutes, 12.353 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  7:52:51
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  7:58:14
+ Elapsed run time:  5 Minutes, 23.301 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  8:22:27
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  8:27:44
+ Elapsed run time:  5 Minutes, 17.399 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  8:41:12
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  8:46:29
+ Elapsed run time:  5 Minutes, 17.336 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  8:56:43
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  9:02:09
+ Elapsed run time:  5 Minutes, 25.637 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  9:21:56
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  9:27:11
+ Elapsed run time:  5 Minutes, 14.599 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01  9:54:58
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01 10:00:17
+ Elapsed run time:  5 Minutes, 19.530 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01 10:21:06
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01 10:26:34
+ Elapsed run time:  5 Minutes, 27.897 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01 17:19:36
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/01 17:24:58
+ Elapsed run time:  5 Minutes, 21.983 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/02  8:25:36
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/02  8:30:50
+ Elapsed run time:  5 Minutes, 13.821 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/03 13:22:06
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/03 13:27:20
+ Elapsed run time:  5 Minutes, 13.945 Seconds
+
+  Normal termination of simulation
+
+
+                                  MODFLOW-NWT-SWR1 
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER-FLOW MODEL
+                             WITH NEWTON FORMULATION
+                             Version 1.1.2, 9/15/2016                        
+                    BASED ON MODFLOW-2005 Version 1.11.0 08/08/2013                       
+
+                    SWR1 Version 1.04.0 09/15/2016                       
+
+ Using NAME file: C:/MY_CODES/TreysRegModelTool_dev/nfseg_auto_wup_tool_v20200318\model_update\nfseg_auto_2009.nam 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2020/06/03 15:19:47
+
+ Solving:  Stress period:     1    Time step:     1    Groundwater-Flow Eqn.
+ Solving:  Stress period:     2    Time step:     1    Groundwater-Flow Eqn.
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2020/06/03 15:25:13
+ Elapsed run time:  5 Minutes, 26.157 Seconds
+
+  Normal termination of simulation
+

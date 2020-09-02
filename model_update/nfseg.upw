@@ -1,0 +1,28 @@
+# MODFLOW-NWT UPW Package
+  0  -1.000000e+030 0 0
+  1  0  0  0  0  0  0
+  0  0  0  0  0  0  0
+  -1.000000e+000  -1.000000e+000  -1.000000e+000  -1.000000e+000  -1.000000e+000  -1.000000e+000  -1.000000e+000
+ 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0
+ OPEN/CLOSE 'kx1.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   1
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   1
+ OPEN/CLOSE 'kz1.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   1
+ OPEN/CLOSE 'kx2.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   2
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   2
+ OPEN/CLOSE 'kz2.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   2
+ OPEN/CLOSE 'kx3.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   3
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   3
+ OPEN/CLOSE 'kz3.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   3
+ OPEN/CLOSE 'kx4.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   4
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   4
+ OPEN/CLOSE 'kz4.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   4
+ OPEN/CLOSE 'kx5.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   5
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   5
+ OPEN/CLOSE 'kz5.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   5
+ OPEN/CLOSE 'kx6.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   6
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   6
+ OPEN/CLOSE 'kz6.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   6
+ OPEN/CLOSE 'kx7.ref'  1    '(FREE)'            -1     HYDRAULIC CONDUCTIVITY Layer   7
+         0   1.00000(8e14.6)                    -1     ANISOTROPY RATIO Layer   7
+ OPEN/CLOSE 'kz7.ref'  1    '(FREE)'            -1     VERTICAL HYDRAULIC CONDUCTIVITY Layer   7
