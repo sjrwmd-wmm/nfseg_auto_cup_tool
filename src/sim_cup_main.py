@@ -592,7 +592,7 @@ while continueloop:
                       D_global_budget_out)
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-
+    
 
     currentmessage = ('\n\nPROCESSING COMPLETE. . .\n' +
                       'IF NO ERROR OR WARNING MESSAGES APPEAR IN ' +
