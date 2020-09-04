@@ -31,6 +31,7 @@ class ConvFactors:
         # Convert from seconds to days
         # 1.0 / day2sec = 1.0 / 86400.0[sec/day] = ~1.5e-5[day/sec]
         #self.sec2day = 1.1574074074074073e-05 # improved accuracy value
+        #self.sec2day = 1.0 / self.day2sec # improved accuracy value, and calculates at machine precision
         self.sec2day = 1.157407407E-05 # tmp (previous) value
         
         # Convert US Gallon to cubic inches
@@ -43,13 +44,14 @@ class ConvFactors:
         # Convert cubic inches to US Gallon
         # Convert cubic feet to US Gallon
         # gallon to cubic inches to cubic feet ~ 7.48051948051948 [gal]
-        self.ci2gal = 1.0/231.0
+        self.ci2gal = 1.0/self.gal2ci
         self.cf2gal = (pow(12.0,3.0))*self.ci2gal
         
         # Conversion from gallons per day (gd) and per second (gs)
         # to cubic feet per day (cfd) and per second (cfs), respectively.
         # [US] units
         # gd to cfd = gal per day * gal2cf ~ 0.13368055555555556 [cfd]
+        # 77.0 / 576.0  exact form from Wolfram
         self.gd2cfd = 0.13368055419447 # Tmp version until testing is done
         #self.gd2cfd = self.gal2cf # Most accurate version
         self.gs2cfs = self.gal2cf # Most accurate version
@@ -59,7 +61,7 @@ class ConvFactors:
         # to cubic feet per day (cfd). [US] units
         # mgd to cfd = 1.0e6 gal per day * gal2cf ~ 133680.55555555556 [cfd]
         self.mgd2cfd = 133680.55419447 # Tmp version until testing is done
-        #self.mgd2cfd = 1.0e6 * self.gal2cf # Most accurate version
+        #self.mgd2cfd = 1.0e6 * self.gd2cfd # Most accurate version
         #
         #
         # Conversion from cubic feet day (cfd)
