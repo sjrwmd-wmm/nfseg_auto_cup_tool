@@ -57,7 +57,7 @@ class CreateFilesForCUPProcessing(object):
         Use at your own risk. Please report any errors to jwg@srwmd.org
     """
 
-    def __init__(self, input_file_name,cwd):
+    def __init__(self, input_file_name,cwd, mgd2cfd):
         input_file = open(input_file_name, 'r')
         self.cup_id, self.cup_name = tuple(input_file.readline().rstrip().split(',')[:2])
         self.input_header = input_file.readline()
@@ -73,7 +73,7 @@ class CreateFilesForCUPProcessing(object):
             output_record = record[:-1]
             try:
                 rate_mgd = float(record[-1])
-                rate_cfd = rate_mgd*1.e6/7.48052
+                rate_cfd = rate_mgd * mgd2cfd #1.e6/7.48052
                 sum_mgd += rate_mgd
                 sum_cfd += rate_cfd
                 print(sum_mgd, sum_cfd)
@@ -113,11 +113,11 @@ class CreateFilesForCUPProcessing(object):
         output_file.write(output_string)
         output_file.close()
 
-def main(in_file,workingdir):
+def main(in_file, workingdir, mgd2cfd):
     #cup_id_and_name_input_file_name, withdrawal_point_locations_and_rates_mgd_name = tuple(sys.argv[1:3])
     #cup_id_and_name_input_file_name = 'cup_id_and_name.csv'
     withdrawal_point_locations_and_rates_mgd_name = in_file#'sim_cup_input.csv'
-    a = CreateFilesForCUPProcessing(withdrawal_point_locations_and_rates_mgd_name,workingdir)
+    a = CreateFilesForCUPProcessing(withdrawal_point_locations_and_rates_mgd_name,workingdir, mgd2cfd)
     output_file_name_1 = os.path.join(workingdir,'withdrawal_point_locations_and_rates.csv')
     output_file_name_2 = os.path.join(workingdir,'cup_id_and_rate.csv')
     a.output_cfd_rates(output_file_name_1)

@@ -195,7 +195,8 @@ while continueloop:
     mfexe_dir = os.path.join(cur_working_dir,'model_update')
     
     # Define the preprocessing working directory
-    preproc_cwd = os.path.join(cur_working_dir,'preproc','wellpkg_update')
+    #preproc_cwd = os.path.join(cur_working_dir,'preproc','wellpkg_update')
+    preproc_cwd = os.path.join(cur_working_dir,'results')
     
     # Define the postprocessing budget directory
     postproc_budget_cwd = os.path.join(cur_working_dir,'postproc','budget')
@@ -291,7 +292,7 @@ while continueloop:
     currentmessage = ('\nStarting process_withdrawal_point_input_file.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    process_withdrawal_point_input_file.main(INPUT_FILE,preproc_cwd)
+    process_withdrawal_point_input_file.main(INPUT_FILE,preproc_cwd,mydef.ConvFactors().mgd2cfd)
 
     currentmessage = ('\nStarting update_wellpkg_nfseg_modified.py . . .\n')
     print (currentmessage)
