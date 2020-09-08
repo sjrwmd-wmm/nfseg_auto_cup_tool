@@ -57,7 +57,8 @@ class CreateFilesForCUPProcessing(object):
         Use at your own risk. Please report any errors to jwg@srwmd.org
     """
 
-    def __init__(self, input_file_name,cwd, mgd2cfd):
+    def __init__(self, input_file_name,cwd, mgd2cfd_in):
+        self.mgd2cfd = mgd2cfd_in
         input_file = open(input_file_name, 'r')
         self.cup_id, self.cup_name = tuple(input_file.readline().rstrip().split(',')[:2])
         self.input_header = input_file.readline()
@@ -73,7 +74,7 @@ class CreateFilesForCUPProcessing(object):
             output_record = record[:-1]
             try:
                 rate_mgd = float(record[-1])
-                rate_cfd = rate_mgd * mgd2cfd #1.e6/7.48052
+                rate_cfd = rate_mgd * self.mgd2cfd #1.e6/7.48052
                 sum_mgd += rate_mgd
                 sum_cfd += rate_cfd
                 print(sum_mgd, sum_cfd)
