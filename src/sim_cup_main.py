@@ -641,13 +641,14 @@ while continueloop:
     #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_lay1_log
     #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_lay3_log
     
-    # Delete the specification files from the results dir
-    bscut.deletefile(os.path.join(results_postproc_dh,'array_reader.spc'),logfile)
-    bscut.deletefile(os.path.join(results_postproc_dh,'model_ft.spc'),logfile)
-    bscut.deletefile(os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc'),logfile)
-    bscut.deletefile(os.path.join(results_postproc_dh,'files.fig'),logfile)
-    bscut.deletefile(os.path.join(results_postproc_dh,'pest_gwutil_gridSpecificationFile.spc'),logfile)
-    bscut.deletefile(os.path.join(results_postproc_dh,'settings.fig'),logfile)
+    # !!! Temporarily remove the deletion of these specification files !!!
+#    # Delete the specification files from the results dir
+#    bscut.deletefile(os.path.join(results_postproc_dh,'array_reader.spc'),logfile)
+#    bscut.deletefile(os.path.join(results_postproc_dh,'model_ft.spc'),logfile)
+#    bscut.deletefile(os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc'),logfile)
+#    bscut.deletefile(os.path.join(results_postproc_dh,'files.fig'),logfile)
+#    bscut.deletefile(os.path.join(results_postproc_dh,'pest_gwutil_gridSpecificationFile.spc'),logfile)
+#    bscut.deletefile(os.path.join(results_postproc_dh,'settings.fig'),logfile)
     
     # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
     dh_lyr1_tableFormat = os.path.join(results_postproc_dh,'dh_lyr1_tableFormat.csv')
