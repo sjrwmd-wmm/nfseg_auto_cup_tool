@@ -22,7 +22,7 @@ import zipfile
 # Get the current working directory
 cur_working_dir = '/'.join(os.getcwd().split('\\'))
 # Define the results parent directory
-results_main_dir = os.path.join('..',cur_working_dir)
+results_main_dir = os.path.join('..','..',cur_working_dir)
 # Find way to src directory
 src_dir = os.path.join(cur_working_dir,'src')
 # Insert the PATH to internal python scripts
