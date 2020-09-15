@@ -67,7 +67,8 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
         with open(logfile,'a') as lf: lf.write(currentmessage)
         dh_label = 'dh_lyr{0}'.format(layer)
         # Set the local variables
-        csvFileName = os.path.join(os.getcwd(), dh_label + '_tableFormat.csv')
+        #csvFileName = os.path.join(os.getcwd(), dh_label + '_tableFormat.csv')
+        csvFileName = os.path.join(currentworkingdir, (dh_label + '_tableFormat.csv'))
         
         
         currentmessage = ('\timport data into an ArcGIS table ...\n')
