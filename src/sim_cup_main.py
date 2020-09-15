@@ -30,27 +30,29 @@ cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the lis
 results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
 # Find way to src directory
 src_dir = os.path.join(cur_working_dir,'src')
+
 # Insert the PATH to internal python scripts
-src_utilities_dir = os.path.join(src_dir,'utilities')
-src_preprocess_dir = os.path.join(src_dir,'preprocess')
-src_postprocess_dir = os.path.join(src_dir,'postprocess')
-sys.path.insert(0,src_utilities_dir)
-sys.path.insert(0,src_preprocess_dir)
-sys.path.insert(0,src_postprocess_dir)
-import basic_utilities as bscut
-import mydefinitions as mydef
+#src_utilities_dir = os.path.join(src_dir,'utilities')
+#src_preprocess_dir = os.path.join(src_dir,'preprocess')
+#src_postprocess_dir = os.path.join(src_dir,'postprocess')
+#sys.path.insert(0,src_utilities_dir)
+#sys.path.insert(0,src_preprocess_dir)
+#sys.path.insert(0,src_postprocess_dir)
+#print(sys.path)
+from utilities import basic_utilities as bscut
+from utilities import mydefinitions as mydef
 #import text_blocks_and_errors as mytxterr
-import process_withdrawal_point_input_file
-import update_wellpkg_nfseg_modified
-import create_two_stress_period_wellpkg_input_file
+from preprocess import process_withdrawal_point_input_file
+from preprocess import update_wellpkg_nfseg_modified
+from preprocess import create_two_stress_period_wellpkg_input_file
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-import parse_modflow_listing_file_budget
-import river_drain_and_ghb_flux_changes
-import sim_q_reach_3d_auto
-import sum_sim_q_reach
-import create_delta_q_report
-import ReadModflowFloatArrays
-import make_ArcGIS_table_from_csv
+from postprocess import parse_modflow_listing_file_budget
+from postprocess import river_drain_and_ghb_flux_changes
+from postprocess import sim_q_reach_3d_auto
+from postprocess import sum_sim_q_reach
+from postprocess import create_delta_q_report
+from postprocess import ReadModflowFloatArrays
+from postprocess import make_ArcGIS_table_from_csv
 #=======================================
 #many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one.log
 #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_dh_layer1.log
