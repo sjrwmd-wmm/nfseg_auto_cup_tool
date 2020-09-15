@@ -26,8 +26,10 @@ import zipfile
 # Get the current working directory
 #cur_working_dir = '/'.join(os.getcwd().split('\\'))
 cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the list
+
 # Define the results parent directory
-results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
+#results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
+results_main_dir = os.path.join(*os.path.split(cur_working_dir)[:-1])
 # Find way to src directory
 src_dir = os.path.join(cur_working_dir,'src')
 
@@ -128,6 +130,7 @@ while continueloop:
     # Name the resuls directory
     results_dirname = (basename + '_results')
     results_dirname = os.path.join(results_main_dir,results_dirname)
+    
     # Ask before creating a new results directory
     usermessage_2 = '\nPrexisting results with the jobname {} will be overwritten. Proceed? ( Y = yes , N = no )\n'.format(results_dirname)
     OVERWRITE = 'Y'
