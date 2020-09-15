@@ -680,7 +680,8 @@ while continueloop:
     
     # Define the name for a new set of grid feature classes
     # TODO: this name either needs to be generic or be part of input file
-    grid_featureclass = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
+    #grid_featureclass = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
+    grid_featureclass = 'nfseg_v1_1_grid'
     
     currentmessage = ('\n\nStarting make_ArcGIS_table_from_csv.py . . .\n')
     print (currentmessage)
