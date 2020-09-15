@@ -10,7 +10,11 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 import sys
+# switch to pathlib library for Python3 where appropriate
+# -------------------
 import os
+import ntpath
+#--------------------
 import zipfile
 #import numpy
 #from copy import deepcopy as dc
@@ -20,9 +24,10 @@ import zipfile
 # Import tool libraries
 # ================================
 # Get the current working directory
-cur_working_dir = '/'.join(os.getcwd().split('\\'))
+#cur_working_dir = '/'.join(os.getcwd().split('\\'))
+cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the list
 # Define the results parent directory
-results_main_dir = os.path.join('..','..',cur_working_dir)
+results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
 # Find way to src directory
 src_dir = os.path.join(cur_working_dir,'src')
 # Insert the PATH to internal python scripts
@@ -113,9 +118,10 @@ while continueloop:
     # Define the log file name
     # =====================================================
     # Remove the extension from the filename and capture the basename
-    # TODO: Capture the results directory from this
-    # TODO: Make this handle being in its own dir
-    basename = '.'.join(INPUT_FILE.split('.')[:-1])
+    # A '.' is put back in for all other (non-suffix) components that are split
+    # The base filename gets extracted from the path if the input file
+    #     is in its own directory
+    basename = '.'.join(ntpath.basename(INPUT_FILE).split('.')[:-1])
     #
     # Name the resuls directory
     results_dirname = (basename + '_results')
@@ -145,7 +151,7 @@ while continueloop:
     # Name the logfile that will capture all events
     # Replace existing logfile or start a new one
     # TODO: this needs to move to the results directory
-    logfile = (os.path.join(results_dirname,basename+'.log'))
+    logfile = (os.path.join(results_dirname, (basename+'.log') ) )
     if os.path.isfile(logfile): os.remove(logfile)
     # -----------------------------------------------------
     
