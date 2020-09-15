@@ -34,9 +34,9 @@ results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
 src_dir = os.path.join(cur_working_dir,'src')
 
 # Insert the PATH to internal python scripts
-#src_utilities_dir = os.path.join(src_dir,'utilities')
-#src_preprocess_dir = os.path.join(src_dir,'preprocess')
-#src_postprocess_dir = os.path.join(src_dir,'postprocess')
+src_utilities_dir = os.path.join(src_dir,'utilities')
+src_preprocess_dir = os.path.join(src_dir,'preprocess')
+src_postprocess_dir = os.path.join(src_dir,'postprocess')
 #sys.path.insert(0,src_utilities_dir)
 #sys.path.insert(0,src_preprocess_dir)
 #sys.path.insert(0,src_postprocess_dir)
