@@ -19,17 +19,17 @@ import zipfile
 #import numpy
 #from copy import deepcopy as dc
 #import itertools
-#import shutil
+import shutil
 
 # Import tool libraries
 # ================================
 # Get the current working directory
-#cur_working_dir = '/'.join(os.getcwd().split('\\'))
-cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the list
+cur_working_dir = '/'.join(os.getcwd().split('\\'))
+#cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the list
 
 # Define the results parent directory
-#results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
-results_main_dir = os.path.join(*os.path.split(cur_working_dir)[:-1])
+results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
+#results_main_dir = os.path.join(*os.path.split(cur_working_dir)[:-1])
 # Find way to src directory
 src_dir = os.path.join(cur_working_dir,'src')
 
@@ -143,7 +143,8 @@ while continueloop:
         print ('\n\nCreating or replacing {}\n\n'.format(results_dirname))
         if os.path.isdir(results_dirname):
             # The directory already exists -- replace it
-            os.rmdir(results_dirname)
+            #os.rmdir(results_dirname) # This fails when the directory is not empty
+            shutil.rmtree(results_dirname,ignore_errors=True) # This needs improvement
             os.mkdir(results_dirname)
         elif not os.path.isdir(results_dirname):
             # The directory doesn't exist, make it now
