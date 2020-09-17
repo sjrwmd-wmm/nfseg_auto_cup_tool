@@ -267,7 +267,7 @@ while continueloop:
     
     # The GIS reference files and folders
     gis_ref_cupgdb = os.path.join(gis_dir,'cup.gdb.zip')
-    gis_ref_dhgdb = os.path.join(gis_dir,'dh.gdb.zip')
+    #gis_ref_dhgdb = os.path.join(gis_dir,'dh.gdb.zip')
     gis_ref_mxd = os.path.join(gis_dir,'mxd.zip')
     gis_ref_projections = os.path.join(gis_dir,'projections.zip')
     
@@ -343,9 +343,9 @@ while continueloop:
     with zipfile.ZipFile(gis_ref_cupgdb,'r') as zip_ref:
         zip_ref.extractall(results_gis)
     #
-    with zipfile.ZipFile(gis_ref_dhgdb,'r') as zip_ref:
-        zip_ref.extractall(results_gis)
-    #
+#    with zipfile.ZipFile(gis_ref_dhgdb,'r') as zip_ref:
+#        zip_ref.extractall(results_gis)
+#    #
     with zipfile.ZipFile(gis_ref_mxd,'r') as zip_ref:
         zip_ref.extractall(results_gis)
     #
