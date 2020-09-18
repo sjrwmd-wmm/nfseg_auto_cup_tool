@@ -43,7 +43,6 @@ src_postprocess_dir = os.path.join(src_dir,'postprocess')
 #print(sys.path)
 from utilities import basic_utilities as bscut
 from utilities import mydefinitions as mydef
-#import text_blocks_and_errors as mytxterr
 from preprocess import process_withdrawal_point_input_file
 from preprocess import update_wellpkg_nfseg_modified
 from preprocess import create_two_stress_period_wellpkg_input_file

@@ -78,10 +78,8 @@ import time
 import shelve
 import sys
 import os
-# Insert the PATH to internal python scripts
-sys.path.insert(0,'src\utilities')
-import basic_utilities as bscut
-import text_blocks_and_errors as mytxterr
+# Import internal python scripts
+from utilities import basic_utilities as bscut
 
 
 class GagedReaches:
