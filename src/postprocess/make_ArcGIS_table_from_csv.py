@@ -9,21 +9,24 @@
 # Please report errors and corrections to jwg (at) srwmd.org
 
 import os
-import time
 import arcpy
+# Import internal python scripts
+from utilities import basic_utilities as bscut
+
 # TODO: Fix inputs
 def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
     
-    currentmessage = ('\tInitializing dh geoprocessing ...\n' +
-    '\tcurrent datetime is {0}'.format(time.asctime(time.localtime())))
+    currentmessage = ('\tInitializing dh geoprocessing ...\n'
+                      + bscut.datetime() + '\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
+    # Print out the date and time of processing
     
     # TODO: Handle directories
     #currentworkingdir = os.getcwd()
     
     
-    currentmessage = ('\tCreating new dh file geodatabase ...\n')
+    currentmessage = ('\n\tCreating new dh file geodatabase ...\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
@@ -61,8 +64,8 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
     grid_layer = "grid_layer"
 
     for layer in range(1,4,2):
-        currentmessage = ('\tprocessing data for model-layer {0}\n' +
-                          '\t\tcurrent datetime is {1}\n'.format(layer,time.asctime(time.localtime())))
+        currentmessage = ('\tprocessing data for model-layer {}\n'.format(layer)
+                          + bscut.datetime() + '\n')
         print (currentmessage)
         with open(logfile,'a') as lf: lf.write(currentmessage)
         dh_label = 'dh_lyr{0}'.format(layer)
@@ -116,8 +119,8 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
         arcpy.RemoveJoin_management(grid_layer,dh_label)
     #
     
-    currentmessage = ('\tFinished ArcGIS processing of simulated dh field.\n' +
-                      '\t\tcurrent datetime is {0}'.format(time.asctime(time.localtime())))
+    currentmessage = ('\tFinished ArcGIS processing of simulated dh field.\n'
+                      + bscut.datetime() + '\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
