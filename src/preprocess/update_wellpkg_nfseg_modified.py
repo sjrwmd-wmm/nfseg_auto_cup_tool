@@ -21,16 +21,18 @@
 
 
 import os
-import sys
+#import sys
 import arcpy
 
 
 # Capture the command-line argument
 # Argument sets the spacial reference to use
 #SpatialReference_input = sys.argv[1]
-def main(SpatialReference_input,workingdir,gis_dir):
+def main(SpatialReference_input, workingdir, gis_dir, logfile):
     
-    print ("\n\tInitializing process for intersecting withdrawal locations with model grid (takes a few seconds) . . .\n")
+    currentmessage = ("\n\tInitializing process for intersecting withdrawal locations with model grid (takes a few seconds) . . .\n")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
     
     my_gdb = os.path.join(workingdir, 'wellpkg_update.gdb')
     arcpy.env.workspace = my_gdb
@@ -48,7 +50,7 @@ def main(SpatialReference_input,workingdir,gis_dir):
     cup_wells_layer = 'cup_wells_layer'
 
     cupWells_fc = r'cup_wells_fc'
-    cupWells_fc_exported_to_gis_dir = r'cup_wells'
+    #cupWells_fc_exported_to_gis_dir = r'cup_wells'
 
     # Set the spatial reference
     if (SpatialReference_input == 'state_plane_north'):
@@ -60,36 +62,50 @@ def main(SpatialReference_input,workingdir,gis_dir):
 
 
     # Make the XY event layer...
-    print ("\tCleaning out old layer")
+    currentmessage = ("\tCleaning out old layer")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
     if arcpy.Exists(cup_wells_layer_state_plane_north):
         arcpy.Delete_management(cup_wells_layer_state_plane_north)
 
 
     # Make the XY event layer...
-    print ("\tImporting x,y coordinates for withdrawal points")
+    currentmessage = ("\tImporting x,y coordinates for withdrawal points")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
     #arcpy.MakeXYEventLayer_management(in_Table, x_coords, y_coords, cup_wells_layer, spRef_nfseg)
     arcpy.MakeXYEventLayer_management(in_Table, x_coords, y_coords, cup_wells_layer_state_plane_north, SpatialReference)
 
 
     # Print the total rows
     number_of_withdrawl_points = arcpy.GetCount_management(cup_wells_layer_state_plane_north)
-    print ("\tImported data for {0} withdrawal points\n".format(number_of_withdrawl_points))
-
+    currentmessage = ("\tImported data for {0} withdrawal points\n".format(number_of_withdrawl_points))
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
     # project new cup wells layer
     if arcpy.Exists(cup_wells_layer):
         arcpy.Delete_management(cup_wells_layer)
-
+    
+    # Apply well info to new projection layer (NFSEG is Albers)
+    # arcpy.Project_management(Input, Output, Projection)
     arcpy.Project_management(cup_wells_layer_state_plane_north, cup_wells_layer, spRef_nfseg)
 
     if arcpy.Exists(cupWells_fc):
         arcpy.Delete_management(cupWells_fc)
-
-    print ("\tProjected locations of {0} withdrawal points\n".format(number_of_withdrawl_points))
-
+    
+    currentmessage = ("\tProjected locations of {0} withdrawal points\n".format(number_of_withdrawl_points))
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
     # export to feature class
     arcpy.CopyFeatures_management(cup_wells_layer, cupWells_fc)
-
-    print ("\tCopied layer containing withdrawal points to new feature class\n")
+    
+    currentmessage = ("\tCopied layer containing withdrawal points to new feature class\n")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
 
     # Set local parameters
     inFeatures = cupWells_fc
@@ -101,31 +117,57 @@ def main(SpatialReference_input,workingdir,gis_dir):
     outFeatures_for_export_to_cup_gdb = os.path.join(cup_gdb, "cup_wells_with_grid_info")
 
     csvOutputFile = os.path.join(workingdir, "wells_to_add.csv")
-
-    print ("\tIntersecting withdrawal point locations with model grid ...\n")
-
+    
+    currentmessage = ("\tIntersecting withdrawal point locations with model grid ...\n")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
+    
+    # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+    # 1. Find the Model Grid Rows, Columns that
+    #    intersect the cup well X,Y coord
+    #
+    # 2. Copy the new feature to cup.gdb
+    #
+    # 3. Output data to .csv file
+    #
     # Process: Use the Identity function
+    #    - arcpy.Identity_analysis was
+    #      replaced with arpy.Intersect_analysis
+    #      to because Intersect works with
+    #      a basic ArcMap license
+    # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+    
+    # 1. Find Model Rows, Column points
     if arcpy.Exists(outFeatures):
         arcpy.Delete_management(outFeatures)
-
+    
+    # Find the intersting points
     #arcpy.Identity_analysis (inFeatures, idFeatures, outFeatures)
-    #The following line was substituted for the previous one to enable
-    #the program to work with a basic ArcMap license:
     arcpy.Intersect_analysis([inFeatures, idFeatures], outFeatures)
-
+    
+    
+    # 2. Copy feature to cup.gdb
     if arcpy.Exists(outFeatures_for_export_to_cup_gdb):
         arcpy.Delete_management(outFeatures_for_export_to_cup_gdb)
-
-    print("\tIdentity operation complete, now copy features to cup.gdb and export .csv file\n")
+    
+    currentmessage = ("\tIdentity operation complete, now copy features to cup.gdb and export .csv file\n")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
     arcpy.CopyFeatures_management(outFeatures, os.path.join(cup_gdb, outFeatures_for_export_to_cup_gdb))
-
-
+    
+    
+    # 3. Export to a .csv file
     if arcpy.Exists(csvOutputFile):
         arcpy.Delete_management(csvOutputFile)
 
     arcpy.ExportXYv_stats(outFeatures, ["WellId","layer", "row", "col", "Q_cfd"], "COMMA", csvOutputFile, "ADD_FIELD_NAMES")
-
-    print ("\nFinished (row, col) identification for withdrawal points\n\n")
+    # ooooooooooooooooooooooooooooooooooooooooo
+    
+    currentmessage = ("\nFinished (row, col) identification for withdrawal points\n\n")
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
     
     return
 #  END DEF

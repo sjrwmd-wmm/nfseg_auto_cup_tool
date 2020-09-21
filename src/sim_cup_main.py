@@ -408,7 +408,7 @@ while continueloop:
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # Argument provides the correct map projection
-    update_wellpkg_nfseg_modified.main(mapproj,results_preproc_wellpkg_update,results_gis)
+    update_wellpkg_nfseg_modified.main(mapproj, results_preproc_wellpkg_update, results_gis, logfile)
 
 
 

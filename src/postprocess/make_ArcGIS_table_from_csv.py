@@ -31,7 +31,9 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
     
+    # Create PATH to the new geodatabase
     my_gdb = os.path.join(currentworkingdir, 'dh.gdb')
+    
     
     if arcpy.Exists(my_gdb):
         arcpy.Delete_management(my_gdb)
@@ -59,7 +61,12 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
     
     # might be able to speed this up with Table View or Layer instead of fc copy ????
     arcpy.CopyFeatures_management(os.path.join(cup_gdb, grid_featureclass), grid_featureclass)
-
+    
+    # From ArcGIS Doc:
+    # Creates a feature layer from an input feature class or layer file.
+    # The layer that is created by the tool is temporary and will not
+    # persist after the session ends unless the layer is saved to disk or
+    # the map document is saved.
     arcpy.MakeFeatureLayer_management(grid_featureclass, "grid_layer")
     grid_layer = "grid_layer"
 
@@ -118,6 +125,9 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
         print("    Removing join ...\n")
         arcpy.RemoveJoin_management(grid_layer,dh_label)
     #
+    
+    # Cleanup FeatureLayers in memory
+    if arcpy.Exists("grid_layer"): arcpy.Delete_management("grid_layer")
     
     currentmessage = ('\tFinished ArcGIS processing of simulated dh field.\n'
                       + bscut.datetime() + '\n')
