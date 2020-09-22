@@ -6,7 +6,7 @@ groundwater availability and other drawdown effects due to well additions or del
 ## Installation and Setup:
 Download the zip file.
 After the download is complete, unzip the tool to a directory on the local machine’s hard drive.
-The tool unzips into its own directory, called the *top-level directory*.
+The tool unzips into its own directory, referred to as the *top-level directory*.
 The portion of the default Windows PATH when unzipping is usually not necessary.
 
 Setup the tool for use by double-clicking the *setup.bat* script in the top-level directory.
