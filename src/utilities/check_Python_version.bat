@@ -95,7 +95,7 @@ echo:
 rem set PYCMD=C:\Python27\ArcGIS10.6\python
 
 
-PAUSE
+rem PAUSE
 
-EXIT
+rem EXIT
 rem =======================================
