@@ -118,13 +118,13 @@ def introbanner():
     return
 
 def logbanner():
+    dt = ('\tRun datetime: {0}\n'.format(time.asctime(time.localtime())))
     logbanner = ('\n\n' +
               'xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox\n\n' +
               '        --  NFSEG AUTOMATED WATER-USE PERMIT SIMULATION TOOL  --\n\n' +
               '        --                     LOG OUTPUT                     --\n\n' +
-              '\tRun datetime: {0}\t' +
-              'xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox\n\n\n'.format(time.asctime(time.localtime()))
-              )
+              dt +
+              'xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox\n\n\n')
     
     return logbanner
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo

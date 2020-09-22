@@ -733,7 +733,7 @@ while continueloop:
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
     
-    currentmessage = ('\n\n' +
+    currentmessage = ('\n\n\n' +
                       '\t\txoxoxoxoxoxoxoxoxoxoxoxox\n\n' +
                       '\t\t-- PROCESSING COMPLETE --\n\n' +
                       '\t\txoxoxoxoxoxoxoxoxoxoxoxox\n\n\n' +
