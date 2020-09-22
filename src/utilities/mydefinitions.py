@@ -13,6 +13,7 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 import os
+import time
 
 
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
@@ -91,27 +92,41 @@ class ConvFactors:
 
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 #
-# Introduction Banner
+# Introduction Banners -- Runtime and Logfile
 #
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 
 def introbanner():    
     print ('=========================================================================\n' +
            '            NFSEG AUTOMATED WATER-USE PERMIT SIMULATION TOOL\n\n' +
-           '    Main Batch script used to evaluate the impact of adding new wells\n' +
-           '    to the NFSEG model.\n\n' +
-           '    This Batch script is designed to read a user supplied csv file\n' +
+           '    This is the main script used to evaluate the impact of adding\n' +
+           '    new wells to the NFSEG model.\n\n' +
+           '    This script is designed to read a user supplied csv file\n' +
            '    containing the id, location, and withdrawal rate of the wells\n' +
            '    requesting a permit.\n\n' +
-           '    The new wells are processed utilizing MODFLOW, and the final\n' +
-           '    results are output to two csv files and an updated mxd:\n' +
-           '        1. .\^<your_input_filename^>_delta_q_summary.csv\n' +
-           '        2. .\^<your_input_filename^>_global_budget_change.csv\n' +
-           '        3. .\gis\dh.mxd\n\n' +
-           '    Last Modified by: PMBremner - pbremner@sjrwmd.com\n' +
-           '                      DDurden   - Douglas.Durden@srwmd.org\n' +
+           '    New wells are processed utilizing MODFLOW. Results are\n' +
+           '    summarized in two csv files and an updated mxd. The log and\n' +
+           '    output files are written to a new results directory.\n' +
+           '        1. <results>\<user_input_filename>_delta_q_summary.csv\n' +
+           '        2. <results>\<user_input_filename>_global_budget_change.csv\n' +
+           '        3. <results>\gis\dh.mxd\n\n' +
+           '    For questions contact:\n' +
+           '                  PMBremner - pbremner@sjrwmd.com\n' +
+           '                  LMeridth  - lmeridth@sjrwmd.com\n' +
+           '                  DDurden   - Douglas.Durden@srwmd.org\n' +
            '=========================================================================\n\n')
     return
+
+def logbanner():
+    logbanner = ('\n\n' +
+              'xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox\n\n' +
+              '        --  NFSEG AUTOMATED WATER-USE PERMIT SIMULATION TOOL  --\n\n' +
+              '        --                     LOG OUTPUT                     --\n\n' +
+              '\tRun datetime: {0}\t' +
+              'xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox\n\n\n'.format(time.asctime(time.localtime()))
+              )
+    
+    return logbanner
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 

@@ -9,7 +9,7 @@
 #
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-import sys
+#import sys
 # switch to pathlib library for Python3 where appropriate
 # -------------------
 import os
@@ -161,8 +161,8 @@ while continueloop:
     # -----------------------------------------------------
     
     
-    # Add the User INPUT_FILE name to the log file
-    with open(logfile,'a') as lf: lf.write('{}\n'.format(INPUT_FILE))
+    # Start log file with the banner
+    with open(logfile,'a') as lf: lf.write('{}\n'.format(mydef.logbanner()))
     
     
     # Check that the User-Input filename exists
@@ -215,8 +215,8 @@ while continueloop:
 
 
     # Print out the date and time of processing
-    print (bscut.datetime())
-    with open(logfile,'a') as lf: lf.write('{}'.format(bscut.datetime()))
+    #print (bscut.datetime())
+    #with open(logfile,'a') as lf: lf.write('{}'.format(bscut.datetime()))
     
     
     # =====================================================
@@ -351,35 +351,45 @@ while continueloop:
     with zipfile.ZipFile(gis_ref_projections,'r') as zip_ref:
         zip_ref.extractall(results_gis)
     #
+    # -----------------------------------------------------
     
-
+    
+    # =====================================================
+    # Setup the results filenames.
+    # Change the names of the reports to carry
+    # the basename of the input file.
+    # =====================================================
+    
     # Setup a suffix that will be appended to the basename
     suffix_DQ = 'delta_q_summary'
     suffix_budget = 'global_budget_change'
 
     # Append the suffix and extension to the basename
-    DQ_summary_out = (basename + '_' + suffix_DQ + '.csv')
-    DQ_summary_out = os.path.join(results_dirname,DQ_summary_out)
-    D_global_budget_out = (basename + '_' + suffix_budget + '.csv')
-    D_global_budget_out = os.path.join(results_dirname,D_global_budget_out)
-    currentmessage = ('\n\nThe output filenames will be:\n\t' + DQ_summary_out + '\n\t' + D_global_budget_out)
+    DQ_summary_out_fname = (basename + '_' + suffix_DQ + '.csv')
+    DQ_summary_out = os.path.join(results_dirname,DQ_summary_out_fname)
+    D_global_budget_out_fname = (basename + '_' + suffix_budget + '.csv')
+    D_global_budget_out = os.path.join(results_dirname,D_global_budget_out_fname)
+    currentmessage = ('\n\nResults directory location and name:\n\t' +
+                      results_dirname + '\n\n'
+                      'CSV filenames output to results directory:\n\t' +
+                      DQ_summary_out_fname + '\n\t' +
+                      D_global_budget_out_fname + '\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
-    # -----------------------------------------------------
-
-
+    
     # Delete previous versions of the output files, if they exist
     # These will be recreated
     bscut.deletefile(DQ_summary_out,logfile)
     bscut.deletefile(D_global_budget_out,logfile)
-
+    # -----------------------------------------------------
+    
 
     # =====================================================
     # Process the input csv file
     # =====================================================
 
-    currentmessage = ('\n\nCreating wellpkg with cup withdrawals . . .\n')
+    currentmessage = ('\n\nCreating wellpkg with cup withdrawals . . .\n\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
 
@@ -709,28 +719,26 @@ while continueloop:
 
 
     # =====================================================
-    # Copy the reports to the top-level directory.
-    # Change the names of the reports to carry
-    # the basename of the input file.
+    # Finalize the current Process Iteration
     # =====================================================
     
-    # Name the two output csv files
-    #Global_bud = os.path.join(postproc_budget_cwd,'global_budget_change.csv')
-    #deltaQ = os.path.join(postproc_dQ_cwd,'delta_q_summary.csv')
-    
-    #if not (bscut.copyfile(deltaQ, DQ_summary_out, logfile)): continue
-    #if not (bscut.copyfile(Global_bud, D_global_budget_out, logfile)): continue
-
-    currentmessage = ('\n\nResults have been written to the summary reports:\n' +
-                      DQ_summary_out +
-                      D_global_budget_out)
+    currentmessage = ('\n\nResults directory location and name:\n\t' +
+                      results_dirname + '\n\n'
+                      'CSV filenames output to results directory:\n\t' +
+                      DQ_summary_out_fname + '\n\t' +
+                      D_global_budget_out_fname + '\n\n' +
+                      'Log output written to:\n\t' +
+                      logfile)
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
-
-    currentmessage = ('\n\nPROCESSING COMPLETE. . .\n' +
-                      'IF NO ERROR OR WARNING MESSAGES APPEAR IN ' +
-                      'THE CONSOLE THEN THE SIMULATION WAS SUCCESSFUL!\n\n')
+    
+    currentmessage = ('\n\n' +
+                      '\t\txoxoxoxoxoxoxoxoxoxoxoxox\n\n' +
+                      '\t\t-- PROCESSING COMPLETE --\n\n' +
+                      '\t\txoxoxoxoxoxoxoxoxoxoxoxox\n\n\n' +
+                      'If no Error or Warning messages appeared ' +
+                      'then the simulation was successful!\n\n\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # -----------------------------------------------------
