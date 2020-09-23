@@ -412,7 +412,7 @@ while continueloop:
     currentmessage = ('\nStarting process_withdrawal_point_input_file.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    process_withdrawal_point_input_file.main(INPUT_FILE,results_preproc_wellpkg_update,mydef.ConvFactors().mgd2cfd)
+    process_withdrawal_point_input_file.main(INPUT_FILE,results_preproc_wellpkg_update,mydef.ConvFactors().mgd2cfd,logfile)
 
     currentmessage = ('\nStarting update_wellpkg_nfseg_modified.py . . .\n')
     print (currentmessage)
@@ -425,7 +425,7 @@ while continueloop:
     currentmessage = ('\nStarting create_two_stress_period_wellpkg_input_file.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    create_two_stress_period_wellpkg_input_file.main(wel_file,results_preproc_wellpkg_update)
+    create_two_stress_period_wellpkg_input_file.main(wel_file,results_preproc_wellpkg_update,logfile)
 
     #    Finished creating well pkg.
 

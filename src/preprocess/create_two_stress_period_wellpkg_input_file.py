@@ -8,8 +8,8 @@
 
 # Please report errors and corrections to jwg (at) srwmd.org
 
-import shutil
-import sys
+#import shutil
+#import sys
 import os
 
 class WellPkgInputFile(object):
@@ -106,7 +106,7 @@ class WellPkgInputFile(object):
         output_file.writelines(self.new_wells_records)
         output_file.close()
 
-def main(output_file_name,workingdir):
+def main(output_file_name, workingdir, logfile):
     """ Program for creating a two-stress period Well Package input file, by:
             (1) reading an existing Well Package input file with one stress
                 period,
@@ -128,7 +128,11 @@ def main(output_file_name,workingdir):
     wellpkg.update_max_active_wells()
     wellpkg.create_two_stress_period_input_file(output_file_name)
     
-    print('\tNew Well Package input file created')
+    currentmessage = ('\tCreated new Well Package input file\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
+    
     return
 #main()
 

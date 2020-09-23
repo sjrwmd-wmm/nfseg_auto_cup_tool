@@ -57,7 +57,8 @@ class CreateFilesForCUPProcessing(object):
         Use at your own risk. Please report any errors to jwg@srwmd.org
     """
 
-    def __init__(self, input_file_name,cwd, mgd2cfd_in):
+    def __init__(self, input_file_name,cwd, mgd2cfd_in, logf_in):
+        self.logf = logf_in
         self.mgd2cfd = mgd2cfd_in
         input_file = open(input_file_name, 'r')
         self.cup_id, self.cup_name = tuple(input_file.readline().rstrip().split(',')[:2])
@@ -77,7 +78,10 @@ class CreateFilesForCUPProcessing(object):
                 rate_cfd = rate_mgd * self.mgd2cfd #1.e6/7.48052
                 sum_mgd += rate_mgd
                 sum_cfd += rate_cfd
-                print(sum_mgd, sum_cfd)
+                #print(sum_mgd, sum_cfd)
+                curmsg = ('{0}, {1}\n'.format(sum_mgd, sum_cfd))
+                print (curmsg)
+                with open(self.logf,'a') as lf: lf.write(curmsg)
                 output_record.append('{0}'.format(rate_cfd))
                 output_records.append(output_record)
             except TypeError:
@@ -108,23 +112,33 @@ class CreateFilesForCUPProcessing(object):
     def output_total_withdrawal_rate_in_cfd(self, output_file_name):
         """ Output total withdrawal rate to a file. """
         output_file = open(output_file_name, 'w')
-        print ("This is where the file is written, cfd, mgd", self.sum_cfd, self.sum_mgd)
+        #print ("This is where the file is written, cfd, mgd", self.sum_cfd, self.sum_mgd)
+        curmsg = ("This is where the file is written, cfd, mgd", self.sum_cfd, self.sum_mgd)
+        print (curmsg)
+        with open(self.logf,'a') as lf: lf.write(curmsg)
         output_string = '{0},{1}\n'.format(self.cup_id,self.sum_mgd)
-        print ("This is the string printed:", output_string)
+        #print ("This is the string printed:", output_string)
+        curmsg = ("This is the string printed:", output_string)
+        print (curmsg)
+        with open(self.logf,'a') as lf: lf.write(curmsg)
         output_file.write(output_string)
         output_file.close()
 
-def main(in_file, workingdir, mgd2cfd):
+def main(in_file, workingdir, mgd2cfd, logfile):
     #cup_id_and_name_input_file_name, withdrawal_point_locations_and_rates_mgd_name = tuple(sys.argv[1:3])
     #cup_id_and_name_input_file_name = 'cup_id_and_name.csv'
     withdrawal_point_locations_and_rates_mgd_name = in_file#'sim_cup_input.csv'
-    a = CreateFilesForCUPProcessing(withdrawal_point_locations_and_rates_mgd_name,workingdir, mgd2cfd)
+    a = CreateFilesForCUPProcessing(withdrawal_point_locations_and_rates_mgd_name,workingdir, mgd2cfd, logfile)
     output_file_name_1 = os.path.join(workingdir,'withdrawal_point_locations_and_rates.csv')
     output_file_name_2 = os.path.join(workingdir,'cup_id_and_rate.csv')
     a.output_cfd_rates(output_file_name_1)
     a.output_total_withdrawal_rate_in_cfd(output_file_name_2)
-
-    print('Process complete')
+    
+    currentmessage = ('\tProcess complete\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
+    
     return
 #main()
 
