@@ -214,9 +214,11 @@ while continueloop:
     # =======================================
 
 
-    # Print out the date and time of processing
-    #print (bscut.datetime())
-    #with open(logfile,'a') as lf: lf.write('{}'.format(bscut.datetime()))
+    # Copy the input file to the results directory
+    currentmessage = ('\n\nCopy the User input file:\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    if not (bscut.copyfile(INPUT_FILE, os.path.join(results_dirname,ntpath.basename(INPUT_FILE)), logfile)): continue
     
     
     # =====================================================
