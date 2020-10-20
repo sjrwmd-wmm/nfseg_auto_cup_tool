@@ -438,7 +438,7 @@ def retrieve_id_data_from_lookup_shelf_file(lookup_bc_reach_id_shelf_file_name):
 
 
 def main(listfile,
-         conversion_factor_for_output,
+         conversion_factor_for_output_in,
          logfile,
          postproc_deffiles_dQ,
          postproc_dQ_results_dir,
@@ -448,10 +448,6 @@ def main(listfile,
         values and output results to a file.
     """
     
-    # Determine the number of passed parameters into the function
-    # *** NOTE ***  This count MUST be before any other assignments
-    #               to get the correct count!
-    num_args = len(locals())
     
     start_time = time.time()
     modflow_listing_file_name = listfile
@@ -493,26 +489,25 @@ def main(listfile,
                                             mf.num_stress_periods_in_listing,
                                             bc_id_dict['lists_of_3d_ids_from_2d_ids'])
 
-    #if len(sys.argv) > 2:
-    if num_args == 4:
-        conversion_factor_for_output = conversion_factor_for_output #sys.argv[2]
-        try:
-            conversion_factor_for_output = float(conversion_factor_for_output)
-            gaged_reaches.output_gaged_reach_fluxes(gaged_reach_flux_out,
-                                                    mf.num_stress_periods_in_listing,
-                                                    conversion_factor_for_output,
-                                                    bc_types)
-        except Exception as exc:
-            error_message = ("problem converting conversion factor {0}. Are you sure it's a float?\n\n".format(conversion_factor_for_output))
-            
-            with open(logfile,'a') as lf:
-                lf.write(error_message)
-                lf.write('{}\n'.format(exc))
-            
-            raise Exception(error_message)
-    else:
-        gaged_reaches.output_gaged_reach_fluxes(gaged_reach_flux_out,mf.num_stress_periods_in_listing)
-
+    
+    # Output to file
+    conversion_factor_for_output = conversion_factor_for_output_in
+    try:
+        conversion_factor_for_output = float(conversion_factor_for_output)
+        gaged_reaches.output_gaged_reach_fluxes(gaged_reach_flux_out,
+                                                mf.num_stress_periods_in_listing,
+                                                conversion_factor_for_output,
+                                                bc_types)
+    except Exception as exc:
+        error_message = ("problem converting conversion factor {0}. Are you sure it's a float?\n\n".format(conversion_factor_for_output))
+        
+        with open(logfile,'a') as lf:
+            lf.write(error_message)
+            lf.write('{}\n'.format(exc))
+        
+        raise Exception(error_message)
+    # End try-except
+    
     mf.close_files()
     elapsed_time = time.time() - start_time
     
