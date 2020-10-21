@@ -442,7 +442,7 @@ def main(listfile,
          logfile,
          postproc_deffiles_dQ,
          postproc_dQ_results_dir,
-         gaged_reach_flux_out,):
+         gaged_reach_flux_out):
     """ Compute simulated 'gaged-reach' fluxes by extract simulated drn, ghb,
         and riv fluxes from MODFLOW output listing. Compare them with observed
         values and output results to a file.
