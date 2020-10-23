@@ -437,7 +437,7 @@ def retrieve_id_data_from_lookup_shelf_file(lookup_bc_reach_id_shelf_file_name):
     return(bc_id_dict)
 
 
-def main(listfile,
+def main(modflow_listing_file_name,
          conversion_factor_for_output_in,
          logfile,
          postproc_deffiles_dQ,
@@ -450,18 +450,13 @@ def main(listfile,
     
     
     start_time = time.time()
-    modflow_listing_file_name = listfile
-
-    #modflow_listing_file_name = 'nfseg.lst'
-    #modflow_listing_file_name = raw_input("Please enter name of modflow listing file to be processed: ")
-
-    #bc_types = sys.argvi[2]
+    
+    
     bc_types = ['drn','riv', 'ghb']
-    #lookup_bc_reach_id_shelf_file_name = sys.argv[3]
     lookup_bc_reach_id_shelf_file_name = os.path.join(postproc_deffiles_dQ,'lookup_bc_reach_ids_auto.shelf')
     bc_id_dict = retrieve_id_data_from_lookup_shelf_file(lookup_bc_reach_id_shelf_file_name)
 
-    modflow_input_format = 'free'
+    #modflow_input_format = 'free'   # !!! PMB 20201021 -- may be able to delete this line !!!
     #output_file = open('gaged_reach_fluxes.csv', 'w')
 
     # parse the MODFLOW listing file
@@ -518,4 +513,4 @@ def main(listfile,
     
     return
 
-#main()
+# End main
