@@ -148,7 +148,7 @@ def modflow(code_dir,model_dir,nam_file,logfile):
     
     # Setup the full PATH to the executable
     #exe = os.path.join(code_dir,'MODFLOW-NWT_64.exe')  # original
-    exe = os.path.join(code_dir,'MODFLOW-NWT_64.exe')  # switch to jd version
+    exe = os.path.join(code_dir,'mfnwt_jd.exe')  # switch to jd version
     
     # Change the working directory to where all the model
     # files are located, then run MODFLOW.
@@ -174,11 +174,19 @@ def modflow(code_dir,model_dir,nam_file,logfile):
         # 23
         # 2
         # 1
-        p = subprocess.Popen([exe,nam_file,'y',2,'nfseg_sh.2009_2009.hds',23,2,1],
+        p = subprocess.Popen([exe],
                                 stdout = subprocess.PIPE,
                                 stdin = subprocess.PIPE,
                                 stderr = subprocess.PIPE)
         
+        # Input data lines into Modflow
+        p.stdin.write('{}\n'.format(nam_file))
+        p.stdin.write('{}\n'.format('y'))
+        p.stdin.write('{}\n'.format(2))
+        p.stdin.write('{}\n'.format('nfseg_sh.2009_2009.hds'))
+        p.stdin.write('{}\n'.format(23))
+        p.stdin.write('{}\n'.format(2))
+        p.stdin.write('{}\n'.format(1))
         
         # Execute the code with any command-line arguments
         # Syntax: p.communicate(stdin)
