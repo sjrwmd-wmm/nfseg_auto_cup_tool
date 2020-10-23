@@ -147,7 +147,8 @@ def copyfile(file_in,file_out,logfile):
 def modflow(code_dir,model_dir,nam_file,logfile):
     
     # Setup the full PATH to the executable
-    exe = os.path.join(code_dir,'MODFLOW-NWT_64.exe')
+    #exe = os.path.join(code_dir,'MODFLOW-NWT_64.exe')  # original
+    exe = os.path.join(code_dir,'MODFLOW-NWT_64.exe')  # switch to jd version
     
     # Change the working directory to where all the model
     # files are located, then run MODFLOW.
@@ -160,10 +161,24 @@ def modflow(code_dir,model_dir,nam_file,logfile):
     try:
         # Define the executable process
         # The [] contains: [executable, option_arg_1, option_arg_2, etc.]
-        p = subprocess.Popen([exe,nam_file],
+        # Original
+#        p = subprocess.Popen([exe,nam_file],
+#                                stdout = subprocess.PIPE,
+#                                stdin = subprocess.PIPE,
+#                                stderr = subprocess.PIPE)
+        # Switch to jd version
+        # nfseg_complex.nam
+        # y
+        # 2
+        # nfseg_sh.2009_2009.hds
+        # 23
+        # 2
+        # 1
+        p = subprocess.Popen([exe,nam_file,'y',2,'nfseg_sh.2009_2009.hds',23,2,1],
                                 stdout = subprocess.PIPE,
                                 stdin = subprocess.PIPE,
                                 stderr = subprocess.PIPE)
+        
         
         # Execute the code with any command-line arguments
         # Syntax: p.communicate(stdin)
