@@ -297,17 +297,17 @@ while continueloop:
     # Define the postprocessing budget directory
     #os.path.join(results_parent_dir,'postproc','budget')
     #postproc_budget_results = results_parent_dir
-    results_postproc_budget = os.path.join(results_dirname,'postproc','budget')
+    results_postproc_budget = os.path.join(results_postproc,'budget')
 
     # Define the postprocessing budget directory
     #os.path.join(results_parent_dir,'postproc','dh')
     #postproc_dh_results = results_parent_dir
-    results_postproc_dh = os.path.join(results_dirname,'postproc','dh')
+    results_postproc_dh = os.path.join(results_postproc,'dh')
 
     # Define the postprocessing budget directory
     #os.path.join(results_parent_dir,'postproc','dQ')
     #postproc_dQ_results = results_parent_dir
-    results_postproc_dQ = os.path.join(results_dirname,'postproc','dQ')
+    results_postproc_dQ = os.path.join(results_postproc,'dQ')
     
     # Define the gis directory in the results directory
     results_gis = os.path.join(results_dirname,'gis')
@@ -321,7 +321,7 @@ while continueloop:
     os.mkdir(results_preproc)
     #os.mkdir(results_preproc_wellpkg_update)
     os.mkdir(results_postproc)
-    #os.mkdir(results_postproc_budget)
+    os.mkdir(results_postproc_budget)
     #os.mkdir(results_postproc_dh)
     #os.mkdir(results_postproc_dQ)
     os.mkdir(results_gis)
@@ -331,9 +331,9 @@ while continueloop:
         zip_ref.extractall(results_preproc)
     #
     # Postproc
-    with zipfile.ZipFile(postproc_deffiles_budget_zip,'r') as zip_ref:
-        zip_ref.extractall(results_postproc)
-    #
+    #with zipfile.ZipFile(postproc_deffiles_budget_zip,'r') as zip_ref:
+    #    zip_ref.extractall(results_postproc)
+    ##
     with zipfile.ZipFile(postproc_deffiles_dh_zip,'r') as zip_ref:
         zip_ref.extractall(results_postproc)
     #
