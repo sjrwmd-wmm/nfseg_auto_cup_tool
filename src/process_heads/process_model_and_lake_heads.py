@@ -21,16 +21,15 @@ Created on Wed Dec 23 16:14:55 2020
 #==============================================================================
 
 
-import sys
+#import sys
 import os
 import numpy as np
-#import shutil
-#import time
 import subprocess
 # Import internal python scripts
-src_dir = os.path.join(os.getcwd(),'../..')
-sys.path.insert(0,src_dir)
+#src_dir = os.path.join(os.getcwd(),'../..')
+#sys.path.insert(0,src_dir)
 from utilities import mydefinitions as mydef
+from utilities import basic_utilities as bscut
 
 
 
@@ -56,8 +55,9 @@ from utilities import mydefinitions as mydef
 #
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 
-def calc_dh (input_countrol_file,runmode):
-    program = 'nfseg_extract_modelwide_and_lake_hds.exe'
+def calc_dh (code_dir, input_countrol_file, runmode, logfile):
+    
+    program = os.path.join(code_dir,'nfseg_extract_modelwide_and_lake_hds.exe')
     #input_countrol_file = 'hds_processing_control_file.txt'
     
     
@@ -103,15 +103,17 @@ def calc_dh (input_countrol_file,runmode):
                              'Error code: {}\n'.format(program,p.returncode) +
                              'Standard Out:\n{}\n'.format(standardout))
             print(currentmessage)
+            with open(logfile,'a') as lf: lf.write(currentmessage)
             error_message = standarderror
             raise ValueError(error_message)
     except ValueError as VError:
         #raise
-        print('{}'.format(VError))
+        with open(logfile,'a') as lf: lf.write('{}'.format(VError))
+        raise ValueError(VError)
         
     else: # All went well. Print output and move on
         if (runmode == 'run'):
-            print ('{}\n'.format(standardout))
+            with open(logfile,'a') as lf: lf.write('{}\n'.format(standardout))
             return
         elif (runmode == 'readonly'):
             return standardout
@@ -126,14 +128,15 @@ def calc_dh (input_countrol_file,runmode):
 # Collect and return the output filenames
 #
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
-def get_output_fnames(input_countrol_file, runmode, modlayers):
+def get_input_output_fnames(code_dir, input_countrol_file, runmode, modlayers):
     
     # Create list of output files from processing heads
     #---------------------------------------------------
-    output = calc_dh(input_countrol_file,runmode)
+    output = calc_dh(code_dir, input_countrol_file, runmode)
     
     # Parse the output of reading the input-control-file
-    WBfiles = {}
+    WBfiles_in = {}
+    WBfiles_out = {}
     WBfiles_initialized = False # flag to notify when file labels are setup
     for line in output.split('\n'):
         line = line.split()
@@ -155,18 +158,21 @@ def get_output_fnames(input_countrol_file, runmode, modlayers):
                 
                 for i in range(n_WB_files):
                     label = 'WB_{}'.format(i+1)
-                    WBfiles.update({label:[]})
+                    WBfiles_in.update({label:''})
+                    WBfiles_out.update({label:[]})
                 WBfiles_initialized = True
             else:
                 if WBfiles_initialized:
                     #print(line[2])
                     
+                    # Retrieve the lake input filename.
                     # Construct the WaterBody output filenames from
                     # the file prefix and each model layer number
                     # for the current key
-                    if line[0] in WBfiles:
+                    if line[0] in WBfiles_in:
+                        WBfiles_in[line[0]] = '{}'.format(line[1])
                         for lay in modlayers:
-                            WBfiles[line[0]].append('{}_layer_{}.txt'.format(line[2],lay))
+                            WBfiles_out[line[0]].append('{}_layer_{}.txt'.format(line[2],lay))
                         #
 #                   #
                 #
@@ -174,7 +180,7 @@ def get_output_fnames(input_countrol_file, runmode, modlayers):
         #
     #
     
-    return dHfile,WBfiles
+    return dHfile,WBfiles_in,WBfiles_out
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 
@@ -281,29 +287,35 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
 #
 #==============================================================================
 
-def main(input_countrol_file, modlayers, uselayers):
+def main(input_countrol_file, modlayers, uselayers, code_dir, postproc_deffiles_lakef, results_postproc_dh, logfile):
     
-    # Process model heads -- model-wide dH and heads beneath lakes
-    print ('Begin processing heads . . .\n\n')
+    # Change the working directory to where heads processing takes place.
+    # Change back when done.
+    prevdir = os.getcwd()
+    bscut.cd(results_postproc_dh)
     
-    
-    runmode = 'run'
-    calc_dh(input_countrol_file,runmode)
-    
-    print ('\n\n\t. . . Done processing heads!\n\n')
-    
-    
-    # Run the program again, but this time just read the
-    # input-control file. The output from reading this
-    # file provides the program output filenames needed
-    # to reformat the output to work with existing
-    # scripts that add data to geodatabases.
+    # Just read the input-control file. The output
+    # from reading this file provides the program
+    # output filenames needed to reformat the
+    # output to work with existing scripts that
+    # add data to geodatabases.
     #---------------------------------------------------
     runmode = 'readonly'
-    dHfile,WBfiles = get_output_fnames(input_countrol_file, runmode, modlayers)
+    dHfile,WBfiles_in,WBfiles_out = get_input_output_fnames(code_dir, input_countrol_file, runmode, modlayers, logfile)
     
-    #print (dHfile,WBfiles)
+    #print (dHfile,WBfiles_out)
     
+    
+    # Copy the relevant lake files to the working directory
+    for lakef in WBfiles_in:
+        if not (bscut.copyfile(os.path.join(postproc_deffiles_lakef,lakef)
+                           ,lakef
+                           ,logfile)): continue
+    
+    # Run the program again, but this time process model heads
+    #     -- model-wide dH and heads beneath lakes
+    runmode = 'run'
+    calc_dh(code_dir, input_countrol_file, runmode, logfile)
     
     
     # Reformat the dH file to csv for import into gdb
@@ -317,18 +329,31 @@ def main(input_countrol_file, modlayers, uselayers):
     #       but converting as space-to-comma delimited.
     #---------------------------------------------------
     outfiles_list = reformat_dh_modlayers_space2csv(dHfile, uselayers)
-        
+    
+    
+    currentmessage = ('\n\n\t. . . Done processing heads!\n\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    
+    
+    # Done here -- move back to the main working directory
+    bscut.cd(prevdir)
+    
     return outfiles_list
 #==============================================================================
 
-input_countrol_file = 'hds_processing_control_file.txt'
-all_model_layers = [1,2,3,4,5,6,7]
-model_layers_to_use = [1,3,5]
+#code_dir = ''
+#input_countrol_file = 'hds_processing_control_file.txt'
+#all_model_layers = [1,2,3,4,5,6,7]
+#model_layers_to_use = [1,3,5]
+#
+#list_of_dh_layer_files = main(input_countrol_file,
+#                              all_model_layers,
+#                              model_layers_to_use,
+#                              code_dir,
+#                              postproc_deffiles_lakef,
+#                              logfile)
 
-list_of_dh_layer_files = main(input_countrol_file,
-                              all_model_layers,
-                              model_layers_to_use)
-
-print (list_of_dh_layer_files)
+#print (list_of_dh_layer_files)
 #==============================================================================
-exit()
+#exit()

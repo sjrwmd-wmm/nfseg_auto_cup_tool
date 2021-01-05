@@ -9,20 +9,18 @@
 #
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+# ---------------   Import standard libraries
 #import sys
 # switch to pathlib library for Python3 where appropriate
-# -------------------
 import os
 import ntpath
-#--------------------
 import zipfile
 #import numpy
 #from copy import deepcopy as dc
 #import itertools
 import shutil
 
-# Import tool libraries
-# ================================
+# ---------------   Set some immediate working directories
 # Get the current working directory
 cur_working_dir = '/'.join(os.getcwd().split('\\'))
 #cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the list
@@ -30,35 +28,44 @@ cur_working_dir = '/'.join(os.getcwd().split('\\'))
 # Define the results parent directory
 results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
 #results_main_dir = os.path.join(*os.path.split(cur_working_dir)[:-1])
-# Find way to src directory
+
+# Find way to src directory  !!! PMB !!! Remove these lines when ready
 src_dir = os.path.join(cur_working_dir,'src')
+#src_utilities_dir = os.path.join(src_dir,'utilities')
+#src_preprocess_dir = os.path.join(src_dir,'preprocess')
+src_postprocess_dir = os.path.join(src_dir,'postprocess')
 
 # Insert the PATH to internal python scripts
-src_utilities_dir = os.path.join(src_dir,'utilities')
-src_preprocess_dir = os.path.join(src_dir,'preprocess')
-src_postprocess_dir = os.path.join(src_dir,'postprocess')
-#sys.path.insert(0,src_utilities_dir)
-#sys.path.insert(0,src_preprocess_dir)
-#sys.path.insert(0,src_postprocess_dir)
-#print(sys.path)
+##sys.path.insert(0,src_utilities_dir)
+##sys.path.insert(0,src_preprocess_dir)
+##sys.path.insert(0,src_postprocess_dir)
+##print(sys.path)
+
+# ---------------   Import utilities
 from utilities import basic_utilities as bscut
 from utilities import mydefinitions as mydef
+
+# ---------------   Import preprocess
 from preprocess import process_withdrawal_point_input_file
 from preprocess import update_wellpkg_nfseg_modified
 from preprocess import create_two_stress_period_wellpkg_input_file
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# ---------------   Import postprocess
 from postprocess import parse_modflow_listing_file_budget
 from postprocess import river_drain_and_ghb_flux_changes
 from postprocess import sim_q_reach_3d_auto
 from postprocess import sum_sim_q_reach
 from postprocess import create_delta_q_report
-from postprocess import ReadModflowFloatArrays
+#from postprocess import ReadModflowFloatArrays
 from postprocess import make_ArcGIS_table_from_csv
-#=======================================
+
 #many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one.log
 #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_dh_layer1.log
 #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_dh_layer3.log
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# ---------------   Import process_heads
+from process_heads import process_model_and_lake_heads
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # ================================
 
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
@@ -155,7 +162,6 @@ while continueloop:
     
     # Name the logfile that will capture all events
     # Replace existing logfile or start a new one
-    # TODO: this needs to move to the results directory
     logfile = (os.path.join(results_dirname, (basename+'.log') ) )
     if os.path.isfile(logfile): os.remove(logfile)
     # -----------------------------------------------------
@@ -225,27 +231,30 @@ while continueloop:
     # Define the working and results directories
     # =====================================================
     
-    # Define the GIS directory
+    # GIS directory
     # TODO: Get the gis name capitalized
     gis_dir = os.path.join(cur_working_dir,'gis')
 
-    # Define the model directory
+    # Model files directory
     model_dir = os.path.join(cur_working_dir,'model_update')
 
-    # Define the directory containing the MODFLOW executable
+    # MODFLOW executable directory
     mfexe_dir = os.path.join(cur_working_dir,'model_update')
     
-    # Define the preprocessing working directory
+    # Process heads executable directory
+    phexe_dir = os.path.join(cur_working_dir,'process_heads')
+    
+    # Preprocessing working directory
     preproc_cwd = os.path.join(cur_working_dir,'preproc','wellpkg_update')
     #preproc_cwd = os.path.join(cur_working_dir,'results')
     
-    # Define the postprocessing budget directory
+    # Postprocessing budget directory
     postproc_budget_cwd = os.path.join(cur_working_dir,'postproc','budget')
 
-    # Define the postprocessing budget directory
+    # Postprocessing budget directory
     postproc_dh_cwd = os.path.join(cur_working_dir,'postproc','dh')
 
-    # Define the postprocessing budget directory
+    # Postprocessing budget directory
     postproc_dQ_cwd = os.path.join(cur_working_dir,'postproc','dQ')
     
     
@@ -256,19 +265,22 @@ while continueloop:
     # -----------------------------------
     input_def_file_loc = os.path.join(cur_working_dir,'input_and_definition_files')
     
-    preproc_deffiles_wellpkg_update = os.path.join(input_def_file_loc,'preproc','wellpkg_update.zip')
+    preproc_deffiles_dir = os.path.join(input_def_file_loc,'preproc')
+    preproc_deffiles_wellpkg_update = os.path.join(preproc_deffiles_dir,'wellpkg_update.zip')
     
-    postproc_deffiles_budget_zip = os.path.join(input_def_file_loc,'postproc','budget.zip')
-    postproc_deffiles_dh_zip = os.path.join(input_def_file_loc,'postproc','dh.zip')
-    postproc_deffiles_dQ_zip = os.path.join(input_def_file_loc,'postproc','dQ.zip')
+    postproc_deffiles_dir = os.path.join(input_def_file_loc,'postproc')
+    #postproc_deffiles_budget_zip = os.path.join(postproc_deffiles_dir,'budget.zip')
+    #postproc_deffiles_dh_zip = os.path.join(postproc_deffiles_dir,'dh.zip')
+    postproc_deffiles_dQ_zip = os.path.join(postproc_deffiles_dir,'dQ.zip')
     
-    postproc_deffiles_budget = os.path.join(input_def_file_loc,'postproc','budget')
-    postproc_deffiles_dh = os.path.join(input_def_file_loc,'postproc','dh')
-    postproc_deffiles_dQ = os.path.join(input_def_file_loc,'postproc','dQ')
+    postproc_deffiles_budget = os.path.join(postproc_deffiles_dir,'budget')
+    postproc_deffiles_dh = os.path.join(postproc_deffiles_dir,'dh')
+    postproc_deffiles_dQ = os.path.join(postproc_deffiles_dir,'dQ')
+    postproc_deffiles_lakehds = os.path.join(postproc_deffiles_dir,'nfseg_avg_lake_hds')
+    postproc_deffiles_lakef = os.path.join(postproc_deffiles_lakehds,'lake_files')
     
     # The GIS reference files and folders
     gis_ref_cupgdb = os.path.join(gis_dir,'cup.gdb.zip')
-    #gis_ref_dhgdb = os.path.join(gis_dir,'dh.gdb.zip')
     gis_ref_mxd = os.path.join(gis_dir,'mxd.zip')
     gis_ref_projections = os.path.join(gis_dir,'projections.zip')
     
@@ -279,37 +291,26 @@ while continueloop:
     # TODO: change this to be a different one for each job
     #       needs to be at the same time as the gis stuff
     # TODO: These results directories need to be created still !!! PMB
-    ##results_parent_dir = dc(cur_working_dir)
-    #results_parent_dir = os.path.join(cur_working_dir,'results')
-
-    # Define the preprocessing directory
-    #os.path.join(results_parent_dir,'preproc','wellpkg_update')
-    #preproc_results = results_parent_dir
+    
+    # Preprocessing directory
     results_preproc = os.path.join(results_dirname,'preproc')
     
-    # Define the wellpkg_update directory
-    #os.path.join(results_parent_dir,'preproc','wellpkg_update')
+    # Wellpkg_update directory
     results_preproc_wellpkg_update = os.path.join(results_dirname,'preproc','wellpkg_update')
     
-    # Define the postprocessing directory
+    # Postprocessing directory
     results_postproc = os.path.join(results_dirname,'postproc')
     
-    # Define the postprocessing budget directory
-    #os.path.join(results_parent_dir,'postproc','budget')
-    #postproc_budget_results = results_parent_dir
+    # Postprocessing budget directory
     results_postproc_budget = os.path.join(results_postproc,'budget')
 
-    # Define the postprocessing budget directory
-    #os.path.join(results_parent_dir,'postproc','dh')
-    #postproc_dh_results = results_parent_dir
+    # Postprocessing budget directory
     results_postproc_dh = os.path.join(results_postproc,'dh')
 
-    # Define the postprocessing budget directory
-    #os.path.join(results_parent_dir,'postproc','dQ')
-    #postproc_dQ_results = results_parent_dir
+    # Postprocessing budget directory
     results_postproc_dQ = os.path.join(results_postproc,'dQ')
     
-    # Define the gis directory in the results directory
+    # GIS directory in the results directory
     results_gis = os.path.join(results_dirname,'gis')
     # -----------------------------------
     
@@ -318,38 +319,61 @@ while continueloop:
     # Setup the results directory and add the
     # necessary files over
     # =====================================================
-    os.mkdir(results_preproc)
-    #os.mkdir(results_preproc_wellpkg_update)
-    os.mkdir(results_postproc)
-    os.mkdir(results_postproc_budget)
-    #os.mkdir(results_postproc_dh)
-    #os.mkdir(results_postproc_dQ)
-    os.mkdir(results_gis)
     
-    # Preproc
+    # -------------------
+    #       Preproc
+    # -------------------
+    os.mkdir(results_preproc)
+    
+    #os.mkdir(results_preproc_wellpkg_update)
     with zipfile.ZipFile(preproc_deffiles_wellpkg_update,'r') as zip_ref:
         zip_ref.extractall(results_preproc)
     #
-    # Postproc
+    
+    # --------------------
+    #       Postproc
+    # --------------------
+    os.mkdir(results_postproc)
+    
+    os.mkdir(results_postproc_budget)
     #with zipfile.ZipFile(postproc_deffiles_budget_zip,'r') as zip_ref:
     #    zip_ref.extractall(results_postproc)
     ##
-    with zipfile.ZipFile(postproc_deffiles_dh_zip,'r') as zip_ref:
-        zip_ref.extractall(results_postproc)
-    #
+    
+    os.mkdir(results_postproc_dh)
+    #with zipfile.ZipFile(postproc_deffiles_dh_zip,'r') as zip_ref:
+    #    zip_ref.extractall(results_postproc)
+    ##
+    # Copy the input control file
+    input_countrol_file = 'hds_processing_control_file.txt'
+    input_countrol_file_n_path = os.path.join(results_postproc_dh,input_countrol_file)
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,input_countrol_file),
+                           input_countrol_file_n_path,
+                           logfile)): continue
+    
+    
+    #os.mkdir(results_postproc_dQ)
     with zipfile.ZipFile(postproc_deffiles_dQ_zip,'r') as zip_ref:
         zip_ref.extractall(results_postproc)
     #
-    # GIS
+    
+    # ---------------
+    #      GIS
+    #----------------
+    os.mkdir(results_gis)
+    
     with zipfile.ZipFile(gis_ref_cupgdb,'r') as zip_ref:
         zip_ref.extractall(results_gis)
     #
-#    with zipfile.ZipFile(gis_ref_dhgdb,'r') as zip_ref:
-#        zip_ref.extractall(results_gis)
-#    #
+    
+    #with zipfile.ZipFile(gis_ref_dhgdb,'r') as zip_ref:
+    #    zip_ref.extractall(results_gis)
+    ##
+    
     with zipfile.ZipFile(gis_ref_mxd,'r') as zip_ref:
         zip_ref.extractall(results_gis)
     #
+    
     with zipfile.ZipFile(gis_ref_projections,'r') as zip_ref:
         zip_ref.extractall(results_gis)
     #
@@ -441,7 +465,6 @@ while continueloop:
     # Setup and run MODFLOW
     # =====================================================
 
-    #cd ..\..\model_update
     currentmessage = ('\n\nExecuting model . . .\n' +
                       '\t--- first delete old files (if they exist) ---\n')
     print (currentmessage)
@@ -460,7 +483,6 @@ while continueloop:
     # TODO: Change for modflow to somehow use the same file as what is output in previous step -- no duplication.
     #       move instead of copy?
     #bscut.copyfile(wel_file, os.path.join(model_dir,'nfseg_auto.wel'))
-    #!!! LEFT HERE !!! PMB propagate continue
     #if not (bscut.copyfile('wel_file', os.path.join(model_dir,'nfseg_auto.wel'), logfile)): continue
     if not (bscut.copyfile(wel_file, os.path.join(model_dir,'nfseg_auto.wel'), logfile)): continue
 
@@ -471,7 +493,6 @@ while continueloop:
     nam_file = os.path.join(model_dir,'nfseg_auto_2009.nam')
     
     if not bscut.modflow(mfexe_dir,model_dir,nam_file,logfile): continue
-    #modflow-nwt_64.exe nfseg_auto_2009.nam
     
     # -----------------------------------------------------
     
@@ -501,15 +522,12 @@ while continueloop:
                            ,logfile)): continue
     
     # ---------------------------------------
-    # Begin generating the budget check reports
+    # Generate the budget check reports
     # ---------------------------------------
 
     currentmessage = ('\n\nGenerate budget check reports . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    
-
-    #cd ..\postproc\budget
     
     # Name output files that will be recreated
     #budoutput = os.path.join(postproc_budget_cwd,'global_budget_change.csv')
@@ -536,15 +554,13 @@ while continueloop:
     
     
     # ---------------------------------------
-    # Begin generating the change in flow reports
+    # Generate the change in flow reports
     # ---------------------------------------
 
     currentmessage = ('\n\ngenerate simulated river and spring flux change reports . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
 
-    #cd ..\dQ
-    
     # Define some intermediate output filenames
     temp_shelf = os.path.join(results_postproc_dQ,'temp.shelf')
     cup_id_n_rate = os.path.join(results_postproc_dQ,'cup_id_and_rate.csv')
@@ -607,15 +623,14 @@ while continueloop:
 
 
     # ---------------------------------------
-    # Begin generating the change in heads report
+    # Process heads  # and generate the change in heads report
     # ---------------------------------------
 
     currentmessage = ('\n\nGenerate simulated head change maps . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
 
-    #cd ..\dH
-    
+    # ------------------------
     # !!! These lines can likely be removed since the whole directory is copied over !!!
 #    # Copy specification files needed for the PEST utilities
 #    # these can be removed after the PEST utilities run
@@ -640,30 +655,33 @@ while continueloop:
     #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp'),os.path.join(results_postproc_dh,'twoarray_dh_layer1_nfseg.inp'))
     #os.symlink(os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp'),    os.path.join(results_postproc_dh,'many2one_layers1_and_3_hds_nfseg.inp'))
     #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp'),os.path.join(results_postproc_dh,'twoarray_dh_layer3_nfseg.inp'))
-    
-    # Postprocess using PEST utilities
-    
-    #many2one_infile = os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp')
-    many2one_infile = os.path.join(results_postproc_dh,'many2one_layers1_and_3_hds_nfseg.inp')
-    many2one_log = os.path.join(results_postproc_dh,'many2one.log')
-    bscut.deletefile(many2one_log, logfile)
-    if not bscut.many2one(src_postprocess_dir,many2one_infile,many2one_log,results_postproc_dh,logfile): continue
-    #many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one_log
+    # ------------------------
     
     
-    #twoarray_infile_lay1 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp')
-    #twoarray_infile_lay3 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp')
-    twoarray_infile_lay1 = os.path.join(results_postproc_dh,'twoarray_dh_layer1_nfseg.inp')
-    twoarray_infile_lay3 = os.path.join(results_postproc_dh,'twoarray_dh_layer3_nfseg.inp')
-    twoarray_lay1_log = os.path.join(results_postproc_dh,'twoarray_dh_layer1.log')
-    twoarray_lay3_log = os.path.join(results_postproc_dh,'twoarray_dh_layer3.log')
-    bscut.deletefile(twoarray_lay1_log,logfile)
-    bscut.deletefile(twoarray_lay3_log,logfile)
-    if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay1,twoarray_lay1_log,results_postproc_dh,logfile): continue
-    if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay3,twoarray_lay3_log,results_postproc_dh,logfile): continue
-    #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_lay1_log
-    #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_lay3_log
+#    # Postprocess using PEST utilities
+#    
+#    #many2one_infile = os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp')
+#    many2one_infile = os.path.join(results_postproc_dh,'many2one_layers1_and_3_hds_nfseg.inp')
+#    many2one_log = os.path.join(results_postproc_dh,'many2one.log')
+#    bscut.deletefile(many2one_log, logfile)
+#    if not bscut.many2one(src_postprocess_dir,many2one_infile,many2one_log,results_postproc_dh,logfile): continue
+#    #many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one_log
+#    
+#    
+#    #twoarray_infile_lay1 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp')
+#    #twoarray_infile_lay3 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp')
+#    twoarray_infile_lay1 = os.path.join(results_postproc_dh,'twoarray_dh_layer1_nfseg.inp')
+#    twoarray_infile_lay3 = os.path.join(results_postproc_dh,'twoarray_dh_layer3_nfseg.inp')
+#    twoarray_lay1_log = os.path.join(results_postproc_dh,'twoarray_dh_layer1.log')
+#    twoarray_lay3_log = os.path.join(results_postproc_dh,'twoarray_dh_layer3.log')
+#    bscut.deletefile(twoarray_lay1_log,logfile)
+#    bscut.deletefile(twoarray_lay3_log,logfile)
+#    if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay1,twoarray_lay1_log,results_postproc_dh,logfile): continue
+#    if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay3,twoarray_lay3_log,results_postproc_dh,logfile): continue
+#    #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_lay1_log
+#    #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_lay3_log
     
+    # ------------------------
     # !!! Temporarily remove the deletion of these specification files !!!
 #    # Delete the specification files from the results dir
 #    bscut.deletefile(os.path.join(results_postproc_dh,'array_reader.spc'),logfile)
@@ -672,6 +690,7 @@ while continueloop:
 #    bscut.deletefile(os.path.join(results_postproc_dh,'files.fig'),logfile)
 #    bscut.deletefile(os.path.join(results_postproc_dh,'pest_gwutil_gridSpecificationFile.spc'),logfile)
 #    bscut.deletefile(os.path.join(results_postproc_dh,'settings.fig'),logfile)
+    # ------------------------
     
     # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
     dh_lyr1_tableFormat = os.path.join(results_postproc_dh,'dh_lyr1_tableFormat.csv')
@@ -679,26 +698,37 @@ while continueloop:
     bscut.deletefile(dh_lyr1_tableFormat,logfile)
     bscut.deletefile(dh_lyr3_tableFormat,logfile)
     
-    #array_spec_in = os.path.join(postproc_deffiles_dh,'array_reader.spc')
-    #array_file_names_in = os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
-    array_spec_in = os.path.join(results_postproc_dh,'array_reader.spc')
-    array_file_names_in = os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc')
+#    #array_spec_in = os.path.join(postproc_deffiles_dh,'array_reader.spc')
+#    #array_file_names_in = os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
+#    array_spec_in = os.path.join(results_postproc_dh,'array_reader.spc')
+#    array_file_names_in = os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc')
+#    
+#    currentmessage = ('\n\nStarting ReadModflowFloatArrays.py . . .\n')
+#    print (currentmessage)
+#    with open(logfile,'a') as lf: lf.write(currentmessage)
+#    ReadModflowFloatArrays.main(results_postproc_dh, array_spec_in, array_file_names_in, logfile)
     
-    currentmessage = ('\n\nStarting ReadModflowFloatArrays.py . . .\n')
+    
+    currentmessage = ('\n\nProcessing model-wide and area-averaged lake heads . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    ReadModflowFloatArrays.main(results_postproc_dh, array_spec_in, array_file_names_in, logfile)
+    all_model_layers = [1,2,3,4,5,6,7]
+    model_layers_to_use = [1,3,5]
+    
+    list_of_dh_layer_files = process_model_and_lake_heads.main(input_countrol_file_n_path,
+                                                               all_model_layers,
+                                                               model_layers_to_use,
+                                                               phexe_dir,
+                                                               postproc_deffiles_lakef,
+                                                               results_postproc_dh,
+                                                               logfile)
     # =======================================
 
 
     # ---------------------------------------
-    # Update the map project and finalize
+    # Update and finalize the map project in GIS dir
     # ---------------------------------------
-
-    # echo cd ..\..\gis
-    # echo del dh.mxd
-    # echo copy dh_template.mxd dh.mxd
-
+    
     # Need to delete the old dh.gdb directory before running make_ArcGIS_table_from_csv.py !!! PMB
     
     # Define the name for a new set of grid feature classes
