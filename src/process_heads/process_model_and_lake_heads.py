@@ -128,11 +128,11 @@ def calc_dh (code_dir, input_countrol_file, runmode, logfile):
 # Collect and return the output filenames
 #
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
-def get_input_output_fnames(code_dir, input_countrol_file, runmode, modlayers):
+def get_input_output_fnames(code_dir, input_countrol_file, runmode, modlayers, logfile):
     
     # Create list of output files from processing heads
     #---------------------------------------------------
-    output = calc_dh(code_dir, input_countrol_file, runmode)
+    output = calc_dh(code_dir, input_countrol_file, runmode, logfile)
     
     # Parse the output of reading the input-control-file
     WBfiles_in = {}
