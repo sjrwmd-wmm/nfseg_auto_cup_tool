@@ -242,7 +242,7 @@ while continueloop:
     mfexe_dir = os.path.join(cur_working_dir,'model_update')
     
     # Process heads executable directory
-    phexe_dir = os.path.join(cur_working_dir,'process_heads')
+    phexe_dir = os.path.join(cur_working_dir,'src','process_heads')
     
     # Preprocessing working directory
     preproc_cwd = os.path.join(cur_working_dir,'preproc','wellpkg_update')
@@ -350,7 +350,6 @@ while continueloop:
     if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,input_countrol_file),
                            input_countrol_file_n_path,
                            logfile)): continue
-    
     
     #os.mkdir(results_postproc_dQ)
     with zipfile.ZipFile(postproc_deffiles_dQ_zip,'r') as zip_ref:
@@ -727,6 +726,28 @@ while continueloop:
 
     # ---------------------------------------
     # Update and finalize the map project in GIS dir
+    #
+    # Add dH results to a geodatabase using the ArcPy
+    # utilities. The geodatabase is viewable in ArcMap.
+    #
+    # IMPORTANT:
+    # The function currently uses the (now deprecated)
+    # Python2.7 that is bundled with ArcMap 10.X.
+    # Later versions that either upgrade to ArcPro
+    # or use GDAL libraries will need upgrade to
+    # Python3.X.
+    #
+    # Inputs:
+    #    - the current-working directory that contains
+    #      the dH files
+    #    - the gis directory that contains the gdb
+    #    - the list of files to process data from
+    # TODO: - add the lake definitions file(s) that list lake
+    #      area per model cell
+    #
+    # Outputs:
+    #    - updated gdb
+    #
     # ---------------------------------------
     
     # Need to delete the old dh.gdb directory before running make_ArcGIS_table_from_csv.py !!! PMB
@@ -739,7 +760,11 @@ while continueloop:
     currentmessage = ('\n\nStarting make_ArcGIS_table_from_csv.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    make_ArcGIS_table_from_csv.main(results_postproc_dh, results_gis, grid_featureclass, logfile)
+    make_ArcGIS_table_from_csv.main(list_of_dh_layer_files,
+                                    results_postproc_dh,
+                                    results_gis,
+                                    grid_featureclass,
+                                    logfile)
 
 
     currentmessage = ('\n\tCompleted dh processing\n')

@@ -615,7 +615,7 @@ PROGRAM MAIN
     
     
     ! Parameters for the input control file
-    character(len=100) :: control_file_tmp, TMP_ARG
+    character(len=300) :: control_file_tmp, TMP_ARG
     character(len=20) :: runmode
     character(:), allocatable :: control_file != "hds_processing_control_file.txt"
     integer (I32), parameter :: max_number_of_columns = 10, max_line_length = 1000
@@ -730,7 +730,7 @@ PROGRAM MAIN
         WRITE(output_unit,8001) "ERROR", &
             "Command-line arguments required, but none found!"
         WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-        8001 FORMAT (A,/,A)
+        8001 FORMAT (/,A,/,A)
     ELSE
         DO arg=1,narg
             IF (skip_iteration) THEN
@@ -744,7 +744,7 @@ PROGRAM MAIN
                             "No Input Filename provided after -in!", &
                             "Check that the proper arguments are being supplied as '-key' 'input'"
                         WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-                        8002 FORMAT (A,/,A,/,A)
+                        8002 FORMAT (/,A,/,A,/,A)
                         STOP
                     ELSE
                         CALL get_command_argument((arg+1),control_file_tmp)
@@ -755,7 +755,7 @@ PROGRAM MAIN
                                 "A leading dash is reserved for command-line options. Ensure that", &
                                 "the Input Filename provided does not begin with this character."
                             WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-                            8003 FORMAT (A,/,A,/,A,/,A,/,A)
+                            8003 FORMAT (/,A,/,A,/,A,/,A,/,A)
                             STOP
                         ELSE
                             skip_iteration = .true. ! skip the next iteration
@@ -770,7 +770,7 @@ PROGRAM MAIN
                             "No run mode provided after -runmode!", &
                             "Check that the proper arguments are being supplied as '-key' 'input'"
                         WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-                        8004 FORMAT (A,/,A,/,A)
+                        8004 FORMAT (/,A,/,A,/,A)
                         STOP
                     ELSE
                         CALL get_command_argument((arg+1),runmode)
@@ -781,7 +781,7 @@ PROGRAM MAIN
                             WRITE(output_unit,8005) "ERROR", "Run mode not recognized!", &
                                 "Please choose a valid option"
                             WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-                            8005 FORMAT (A,/,A,/,A)
+                            8005 FORMAT (/,A,/,A,/,A)
                             STOP
                         END IF
                     END IF
@@ -794,7 +794,7 @@ PROGRAM MAIN
                         "Command-line argument not recognized!", &
                         "Offending argument:",TRIM(TMP_ARG)
                     WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-                    8006 FORMAT (A,/,A,/,A,2X,A)
+                    8006 FORMAT (/,A,/,A,/,A,2X,A)
                     STOP
                 END IF
             END IF
@@ -806,14 +806,14 @@ PROGRAM MAIN
             "No -in key and no input filename provided!", &
             "Check that the proper arguments are being supplied as '-key' 'input'"
         WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-        8007 FORMAT (A,/,A,/,A)
+        8007 FORMAT (/,A,/,A,/,A)
         STOP
     ELSE IF (.NOT. runmode_check) THEN
         WRITE(output_unit,8008) "ERROR", &
             "No run mode key or input arguments provided!", &
             "Check that the proper arguments are being supplied as '-key' 'input'"
         WRITE(output_unit,'(A)') (TRIM(usage(j)),j=1,n_usage)
-        8008 FORMAT (A,/,A,/,A)
+        8008 FORMAT (/,A,/,A,/,A)
         STOP
     END IF
     
@@ -836,7 +836,7 @@ PROGRAM MAIN
          , ACTION='read', POSITION='rewind',ACCESS='sequential')
     IF (ioerr .NE. 0) THEN
         WRITE(output_unit,9001) "ERROR",ioerr,"Problem opening",ADJUSTL(TRIM(control_file))
-        9001 FORMAT (A,1X,I0,/,A,1X,A)
+        9001 FORMAT (/,A,1X,I0,/,A,1X,A)
         STOP
     END IF
     
@@ -851,7 +851,7 @@ PROGRAM MAIN
             WRITE(output_unit,9002) "ERROR", ioerr, &
                                     "Problem reading the input file line:", TRIM(line) &
                                     , "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-            9002 FORMAT (A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
+            9002 FORMAT (/,A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
             STOP
         ELSE IF (ioerr .EQ. iostat_end) THEN
             ! End of File...Exit the loop
@@ -870,7 +870,7 @@ PROGRAM MAIN
 !             ELSE IF (TRIM(line_cols(1)) .EQ. "set" .AND TRIM(line_cols(2)) .EQ. "Number_Of_Lake_Waterbody_Files:") THEN
 !                 CALL str2int32(ADJUSTL(TRIM(input_header_value)), n_waterbodies_files, ioerr)
 !                 if (ioerr .NE. 0) then
-!                     write(*,'(A,I0,A,A)') "ERROR ", ioerr, &
+!                     write(*,'(/,A,I0,A,A)') "ERROR ", ioerr, &
 !                                             ": Problem converting string to integer: ", &
 !                                             input_header_value
 !                     stop
@@ -901,14 +901,14 @@ PROGRAM MAIN
                     WRITE(output_unit,9003) "ERROR", ioerr, &
                                             "Problem reading the input file line:", TRIM(line) &
                                             , "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-                    9003 FORMAT (A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
+                    9003 FORMAT (/,A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
                     STOP
                 ELSE IF (ioerr .EQ. iostat_end) THEN
                     ! End of File...Not supposed to happen before the end of the list
                     WRITE(output_unit,9004) "ERROR", ioerr, &
                                             "Reached EOF while reading Heads file list. Check input file.", &
                                             "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-                    9004 FORMAT (A,1X,I0,/,A,/,A,1X,A,2X,A,1X,I0)
+                    9004 FORMAT (/,A,1X,I0,/,A,/,A,1X,A,2X,A,1X,I0)
                     STOP
                 ELSE
                     ! Increment the input file line count
@@ -960,7 +960,7 @@ PROGRAM MAIN
                     WRITE(output_unit,9005) "ERROR", ioerr, &
                                             "Problem reading the input file line:", TRIM(line) &
                                             , "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-                    9005 FORMAT (A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
+                    9005 FORMAT (/,A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
                     STOP
                 ELSE IF (ioerr .EQ. iostat_end) THEN
                     ! End of File...Not supposed to happen until after the "end" keyword
@@ -968,7 +968,7 @@ PROGRAM MAIN
                                             "Reached EOF while reading Lake Waterbody List.", &
                                             "Required section 'end' statement not found.", &
                                             "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-                    9006 FORMAT (A,1X,I0,/,A,/,A,/,A,1X,A,2X,A,1X,I0)
+                    9006 FORMAT (/,A,1X,I0,/,A,/,A,/,A,1X,A,2X,A,1X,I0)
                     STOP
                 ELSE
                     ! Increment the input file line count
@@ -1019,7 +1019,7 @@ PROGRAM MAIN
                     WRITE(output_unit,9007) "ERROR", ioerr, &
                                             "Problem reading the input file line:", TRIM(line) &
                                             , "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-                    9007 FORMAT (A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
+                    9007 FORMAT (/,A,1X,I0,/,A,1X,A,/,A,1X,A,1X,A,2X,I0)
                     STOP
                 ELSE IF (ioerr .EQ. iostat_end) THEN
                     ! End of File...Not supposed to happen until after the "end" keyword
@@ -1027,7 +1027,7 @@ PROGRAM MAIN
                                             "Reached EOF while reading Lake Waterbody List.", &
                                             "Required section 'end' statement not found.", &
                                             "File:", ADJUSTL(TRIM(control_file)), "Line number:", (filelinecnt+1)
-                    9008 FORMAT (A,1X,I0,/,A,/,A,/,A,1X,A,2X,A,1X,I0)
+                    9008 FORMAT (/,A,1X,I0,/,A,/,A,/,A,1X,A,2X,A,1X,I0)
                     STOP
                 ELSE
                     ! Increment the input file line count

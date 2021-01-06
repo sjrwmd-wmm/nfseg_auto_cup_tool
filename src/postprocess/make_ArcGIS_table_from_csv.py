@@ -13,17 +13,14 @@ import arcpy
 # Import internal python scripts
 from utilities import basic_utilities as bscut
 
-# TODO: Fix inputs
-def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
+
+def main(list_of_dh_layer_files, currentworkingdir, gis_dir, grid_featureclass, logfile):
     
+    # Print out the date and time of processing
     currentmessage = ('\tInitializing dh geoprocessing ...\n'
                       + bscut.datetime() + '\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    # Print out the date and time of processing
-    
-    # TODO: Handle directories
-    #currentworkingdir = os.getcwd()
     
     
     currentmessage = ('\n\tCreating new dh file geodatabase ...\n')
@@ -70,15 +67,22 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
     arcpy.MakeFeatureLayer_management(grid_featureclass, "grid_layer")
     grid_layer = "grid_layer"
 
-    for layer in range(1,4,2):
-        currentmessage = ('\tprocessing data for model-layer {}\n'.format(layer)
-                          + bscut.datetime() + '\n')
+    for layername in list_of_dh_layer_files.keys():
+        
+        # Parse the filename and table/field label
+        layerfile = list_of_dh_layer_files[layername][0]
+        dh_label = list_of_dh_layer_files[layername][1]
+        new_field_name = list_of_dh_layer_files[layername][2]
+        
+        currentmessage = ('\tprocessing data for model {}\n'.format(layername) +
+                          '\tfor data file {}\n'.format(layerfile) +
+                          bscut.datetime() + '\n')
         print (currentmessage)
         with open(logfile,'a') as lf: lf.write(currentmessage)
-        dh_label = 'dh_lyr{0}'.format(layer)
-        # Set the local variables
-        #csvFileName = os.path.join(os.getcwd(), dh_label + '_tableFormat.csv')
-        csvFileName = os.path.join(currentworkingdir, (dh_label + '_tableFormat.csv'))
+        
+        
+        # Set the name of the file containing the current layer dh data
+        csvFileName = os.path.join(currentworkingdir, layerfile)
         
         
         currentmessage = ('\timport data into an ArcGIS table ...\n')
@@ -97,7 +101,6 @@ def main(currentworkingdir, gis_dir, grid_featureclass, logfile):
         #
         arcpy.TableToTable_conversion(csvFileName, my_gdb, dh_label)
         
-        new_field_name = "dh_layer{0}".format(layer)
         
         currentmessage = ('\tAdd field for dh values\n')
         print (currentmessage)

@@ -202,12 +202,18 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
     outfiles = {} # dictionary for output filenames
     outf = {} # dictionary for the file objects
     outheader = {} # dictionary for the header line of each output file
+    outfiles_n_labels = {} # dictionary of the outfile names and the associated table labels
     for lay in uselayers:
         label = 'Layer{}'.format(lay)
+        tablelabel = 'dh_lyr{}'.format(lay)
+        fieldlabel = 'dh_layer{}'.format(lay)
         relevantcol.update({label:0})
-        outfiles.update({label:'dh_lyr{}_tableFormat.csv'.format(lay)})
+        outfile = 'dh_{}_tableFormat.csv'.format(label)
+        outfiles.update({label:outfile})
         outf.update({label:'fout{}'.format(lay)})
+        #outheader.update({label:'cellAddress2D,dh_lyr{}\n'.format(lay)})
         outheader.update({label:'cellAddress2D,dh_lyr{}\n'.format(lay)})
+        outfiles_n_labels.update({label:[outfile,tablelabel,fieldlabel]})
     #
     
     # Read in the data, starting with the header to locate column positions
@@ -249,37 +255,10 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
     # Close all the output files
     for key,fobj in outf.items(): fobj.close()
     
-    return list(outfiles.items())
+    return outfiles_n_labels
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 
-
-# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
-#
-# Add dH results to a geodatabase using the ArcPy
-# utilities. The geodatabase is viewable in ArcMap.
-#
-# IMPORTANT:
-# The function currently uses the (now deprecated)
-# Python2.7 that is bundled with ArcMap 10.X.
-# Later versions that either upgrade to ArcPro
-# or use GDAL libraries will need upgrade to
-# Python3.X.
-#
-# Inputs:
-#    - the current-working directory that contains
-#      the dH files
-#    - the gis directory that contains the gdb
-#    - the list of files to process data from
-# TODO: - add the lake definitions file(s) that list lake
-#      area per model cell
-#
-# Outputs:
-#    - updated gdb
-#
-# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
-
-# ooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 #==============================================================================
 #
@@ -307,7 +286,7 @@ def main(input_countrol_file, modlayers, uselayers, code_dir, postproc_deffiles_
     
     
     # Copy the relevant lake files to the working directory
-    for lakef in WBfiles_in:
+    for keys,lakef in WBfiles_in.items():
         if not (bscut.copyfile(os.path.join(postproc_deffiles_lakef,lakef)
                            ,lakef
                            ,logfile)): continue
@@ -331,7 +310,7 @@ def main(input_countrol_file, modlayers, uselayers, code_dir, postproc_deffiles_
     outfiles_list = reformat_dh_modlayers_space2csv(dHfile, uselayers)
     
     
-    currentmessage = ('\n\n\t. . . Done processing heads!\n\n')
+    currentmessage = ('\n\t. . . Done processing heads!\n\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
@@ -341,19 +320,5 @@ def main(input_countrol_file, modlayers, uselayers, code_dir, postproc_deffiles_
     
     return outfiles_list
 #==============================================================================
-
-#code_dir = ''
-#input_countrol_file = 'hds_processing_control_file.txt'
-#all_model_layers = [1,2,3,4,5,6,7]
-#model_layers_to_use = [1,3,5]
-#
-#list_of_dh_layer_files = main(input_countrol_file,
-#                              all_model_layers,
-#                              model_layers_to_use,
-#                              code_dir,
-#                              postproc_deffiles_lakef,
-#                              logfile)
-
-#print (list_of_dh_layer_files)
 #==============================================================================
 #exit()
