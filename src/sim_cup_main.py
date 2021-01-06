@@ -59,10 +59,6 @@ from postprocess import create_delta_q_report
 #from postprocess import ReadModflowFloatArrays
 from postprocess import make_ArcGIS_table_from_csv
 
-#many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one.log
-#twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_dh_layer1.log
-#twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_dh_layer3.log
-
 # ---------------   Import process_heads
 from process_heads import process_model_and_lake_heads
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,7 +278,8 @@ while continueloop:
     # The GIS reference files and folders
     gis_ref_cupgdb = os.path.join(gis_dir,'cup.gdb.zip')
     gis_ref_mxd = os.path.join(gis_dir,'mxd.zip')
-    gis_ref_projections = os.path.join(gis_dir,'projections.zip')
+    #gis_ref_projections = os.path.join(gis_dir,'projections.zip')
+    gis_ref_projections = os.path.join(gis_dir,'projections')
     
     
     # -----------------------------------
@@ -303,21 +300,24 @@ while continueloop:
     
     # Postprocessing budget directory
     results_postproc_budget = os.path.join(results_postproc,'budget')
-
+    
     # Postprocessing budget directory
     results_postproc_dh = os.path.join(results_postproc,'dh')
-
+    
     # Postprocessing budget directory
     results_postproc_dQ = os.path.join(results_postproc,'dQ')
     
     # GIS directory in the results directory
     results_gis = os.path.join(results_dirname,'gis')
+    results_gisproj = os.path.join(results_gis,'projections')
     # -----------------------------------
     
     
     # =====================================================
-    # Setup the results directory and add the
+    #
+    # Setup the results directory and copy the
     # necessary files over
+    #
     # =====================================================
     
     # -------------------
@@ -373,16 +373,33 @@ while continueloop:
         zip_ref.extractall(results_gis)
     #
     
-    with zipfile.ZipFile(gis_ref_projections,'r') as zip_ref:
-        zip_ref.extractall(results_gis)
+    os.mkdir(results_gisproj)
+    #with zipfile.ZipFile(gis_ref_projections,'r') as zip_ref:
+    #    zip_ref.extractall(results_gis)
+    ##
+    # Define the name for a new set of grid feature classes
+    # TODO: this name either needs to be generic or be part of input file
+    #grid_featureclass = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
+    grid_featureclass = 'nfseg_v1_1_grid'
     #
+    # Copy relevant projection files to the new results directory
+    if not (bscut.copyfile(os.path.join(gis_ref_projections,mapproj),
+                           os.path.join(results_gisproj,mapproj),
+                           logfile)): continue
+    if not (bscut.copyfile(os.path.join(gis_ref_projections,grid_featureclass),
+                           os.path.join(results_gisproj,grid_featureclass),
+                           logfile)): continue
+    
+    # _____________________________________________________
     # -----------------------------------------------------
     
     
     # =====================================================
+    #
     # Setup the results filenames.
     # Change the names of the reports to carry
     # the basename of the input file.
+    #
     # =====================================================
     
     # Setup a suffix that will be appended to the basename
@@ -624,11 +641,7 @@ while continueloop:
     # ---------------------------------------
     # Process heads  # and generate the change in heads report
     # ---------------------------------------
-
-    currentmessage = ('\n\nGenerate simulated head change maps . . .\n')
-    print (currentmessage)
-    with open(logfile,'a') as lf: lf.write(currentmessage)
-
+    
     # ------------------------
     # !!! These lines can likely be removed since the whole directory is copied over !!!
 #    # Copy specification files needed for the PEST utilities
@@ -689,14 +702,14 @@ while continueloop:
 #    bscut.deletefile(os.path.join(results_postproc_dh,'files.fig'),logfile)
 #    bscut.deletefile(os.path.join(results_postproc_dh,'pest_gwutil_gridSpecificationFile.spc'),logfile)
 #    bscut.deletefile(os.path.join(results_postproc_dh,'settings.fig'),logfile)
-    # ------------------------
-    
-    # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
-    dh_lyr1_tableFormat = os.path.join(results_postproc_dh,'dh_lyr1_tableFormat.csv')
-    dh_lyr3_tableFormat = os.path.join(results_postproc_dh,'dh_lyr3_tableFormat.csv')
-    bscut.deletefile(dh_lyr1_tableFormat,logfile)
-    bscut.deletefile(dh_lyr3_tableFormat,logfile)
-    
+#    # ------------------------
+#    
+#    # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
+#    dh_lyr1_tableFormat = os.path.join(results_postproc_dh,'dh_lyr1_tableFormat.csv')
+#    dh_lyr3_tableFormat = os.path.join(results_postproc_dh,'dh_lyr3_tableFormat.csv')
+#    bscut.deletefile(dh_lyr1_tableFormat,logfile)
+#    bscut.deletefile(dh_lyr3_tableFormat,logfile)
+#    
 #    #array_spec_in = os.path.join(postproc_deffiles_dh,'array_reader.spc')
 #    #array_file_names_in = os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
 #    array_spec_in = os.path.join(results_postproc_dh,'array_reader.spc')
@@ -749,15 +762,7 @@ while continueloop:
     #    - updated gdb
     #
     # ---------------------------------------
-    
-    # Need to delete the old dh.gdb directory before running make_ArcGIS_table_from_csv.py !!! PMB
-    
-    # Define the name for a new set of grid feature classes
-    # TODO: this name either needs to be generic or be part of input file
-    #grid_featureclass = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
-    grid_featureclass = 'nfseg_v1_1_grid'
-    
-    currentmessage = ('\n\nStarting make_ArcGIS_table_from_csv.py . . .\n')
+    currentmessage = ('\n\nGenerate simulated head change maps . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     make_ArcGIS_table_from_csv.main(list_of_dh_layer_files,
@@ -767,7 +772,7 @@ while continueloop:
                                     logfile)
 
 
-    currentmessage = ('\n\tCompleted dh processing\n')
+    currentmessage = ('\n\tMaps generated\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # =======================================
