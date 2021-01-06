@@ -145,9 +145,18 @@ while continueloop:
         print ('\n\nCreating or replacing {}\n\n'.format(results_dirname))
         if os.path.isdir(results_dirname):
             # The directory already exists -- replace it
-            #os.rmdir(results_dirname) # This fails when the directory is not empty
-            shutil.rmtree(results_dirname,ignore_errors=True) # This needs improvement
-            os.mkdir(results_dirname)
+            shutil.rmtree(results_dirname,ignore_errors=True)
+            try:
+                # Sometimes the deletion takes too long and throws an error
+                # when making a new directory...
+                # This try statement slows it down to finish removing
+                # the directory before trying again to make it.
+                os.mkdir(results_dirname)
+            except FileExistsError:
+                # Try deleting again
+                shutil.rmtree(results_dirname,ignore_errors=True)
+                os.mkdir(results_dirname)
+            #
         elif not os.path.isdir(results_dirname):
             # The directory doesn't exist, make it now
             os.mkdir(results_dirname)
