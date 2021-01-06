@@ -265,7 +265,6 @@ while continueloop:
     preproc_deffiles_wellpkg_update = os.path.join(preproc_deffiles_dir,'wellpkg_update.zip')
     
     postproc_deffiles_dir = os.path.join(input_def_file_loc,'postproc')
-    #postproc_deffiles_budget_zip = os.path.join(postproc_deffiles_dir,'budget.zip')
     #postproc_deffiles_dh_zip = os.path.join(postproc_deffiles_dir,'dh.zip')
     postproc_deffiles_dQ_zip = os.path.join(postproc_deffiles_dir,'dQ.zip')
     
@@ -277,17 +276,13 @@ while continueloop:
     
     # The GIS reference files and folders
     gis_ref_cupgdb = os.path.join(gis_dir,'cup.gdb.zip')
-    gis_ref_mxd = os.path.join(gis_dir,'mxd.zip')
-    #gis_ref_projections = os.path.join(gis_dir,'projections.zip')
+    gis_ref_mxd = 'dh.mxd'  # located in gis_dir
     gis_ref_projections = os.path.join(gis_dir,'projections')
     
     
     # -----------------------------------
     # Define the results directories
     # -----------------------------------
-    # TODO: change this to be a different one for each job
-    #       needs to be at the same time as the gis stuff
-    # TODO: These results directories need to be created still !!! PMB
     
     # Preprocessing directory
     results_preproc = os.path.join(results_dirname,'preproc')
@@ -336,9 +331,6 @@ while continueloop:
     os.mkdir(results_postproc)
     
     os.mkdir(results_postproc_budget)
-    #with zipfile.ZipFile(postproc_deffiles_budget_zip,'r') as zip_ref:
-    #    zip_ref.extractall(results_postproc)
-    ##
     
     os.mkdir(results_postproc_dh)
     #with zipfile.ZipFile(postproc_deffiles_dh_zip,'r') as zip_ref:
@@ -365,18 +357,12 @@ while continueloop:
         zip_ref.extractall(results_gis)
     #
     
-    #with zipfile.ZipFile(gis_ref_dhgdb,'r') as zip_ref:
-    #    zip_ref.extractall(results_gis)
-    ##
-    
-    with zipfile.ZipFile(gis_ref_mxd,'r') as zip_ref:
-        zip_ref.extractall(results_gis)
-    #
+    # Copy template dh.mxd to results directory
+    if not (bscut.copyfile(os.path.join(gis_dir,gis_ref_mxd),
+                           os.path.join(results_gis,gis_ref_mxd),
+                           logfile)): continue
     
     os.mkdir(results_gisproj)
-    #with zipfile.ZipFile(gis_ref_projections,'r') as zip_ref:
-    #    zip_ref.extractall(results_gis)
-    ##
     # Define the name for a new set of grid feature classes
     # TODO: this name either needs to be generic or be part of input file
     #grid_featureclass = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
@@ -446,11 +432,6 @@ while continueloop:
     bscut.deletefile(os.path.join(results_preproc_wellpkg_update,'withdrawal_point_locations_and_rates.csv'),logfile)
 
 
-    # TODO: delete these files when ready
-    #bscut.deletefile(preproc_results + 'sim_cup_input.csv')) # Changing this to use original
-    # Copy over the input file
-    # copy ..\..\sim_cup_input_DD_MSDOS.csv sim_cup_input.csv
-    #copy ..\..\%INPUT_FILE% sim_cup_input.csv
     currentmessage = ('\nStarting process_withdrawal_point_input_file.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
@@ -498,8 +479,6 @@ while continueloop:
     # Copy the new wel file to the model directory
     # TODO: Change for modflow to somehow use the same file as what is output in previous step -- no duplication.
     #       move instead of copy?
-    #bscut.copyfile(wel_file, os.path.join(model_dir,'nfseg_auto.wel'))
-    #if not (bscut.copyfile('wel_file', os.path.join(model_dir,'nfseg_auto.wel'), logfile)): continue
     if not (bscut.copyfile(wel_file, os.path.join(model_dir,'nfseg_auto.wel'), logfile)): continue
 
     currentmessage = ('\nExecuting modflow. This may take a few moments . . .\n')
@@ -546,7 +525,6 @@ while continueloop:
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
     # Name output files that will be recreated
-    #budoutput = os.path.join(postproc_budget_cwd,'global_budget_change.csv')
     budoutput = D_global_budget_out
     rivfluxoutput = os.path.join(results_postproc_budget,'global_river_plus_drain_flux_changes.asc')
     #rivfluxoutput = os.path.join(postproc_budget_cwd,'global_river_plus_drain_flux_changes.asc')
