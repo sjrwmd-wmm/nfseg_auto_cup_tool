@@ -383,11 +383,11 @@ while continueloop:
     grid_featureclass = 'nfseg_v1_1_grid'
     #
     # Copy relevant projection files to the new results directory
-    if not (bscut.copyfile(os.path.join(gis_ref_projections,mapproj),
-                           os.path.join(results_gisproj,mapproj),
+    if not (bscut.copyfile(os.path.join(gis_ref_projections,(mapproj+'.prj')),
+                           os.path.join(results_gisproj,(mapproj+'.prj')),
                            logfile)): continue
-    if not (bscut.copyfile(os.path.join(gis_ref_projections,grid_featureclass),
-                           os.path.join(results_gisproj,grid_featureclass),
+    if not (bscut.copyfile(os.path.join(gis_ref_projections,(grid_featureclass+'.prj')),
+                           os.path.join(results_gisproj,(grid_featureclass+'.prj')),
                            logfile)): continue
     
     # _____________________________________________________
