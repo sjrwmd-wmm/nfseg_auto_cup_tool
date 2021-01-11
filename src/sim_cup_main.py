@@ -12,6 +12,7 @@
 # ---------------   Import standard libraries
 #import sys
 # switch to pathlib library for Python3 where appropriate
+import errno
 import os
 import ntpath
 import zipfile

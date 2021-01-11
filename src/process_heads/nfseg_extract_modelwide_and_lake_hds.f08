@@ -428,7 +428,7 @@ MODULE modflowsubs
         
         
         ! Define a header line for the output files
-        outheader = "LakeID UFA_Head_SP1 UFA_Head_SP2 SP2-SP1"
+        outheader = "LakeID Head_SP1 Head_SP2 SP2-SP1"
         
         
         ! Read in lake information
