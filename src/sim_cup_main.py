@@ -152,10 +152,14 @@ while continueloop:
                 # This try statement slows it down to finish removing
                 # the directory before trying again to make it.
                 os.mkdir(results_dirname)
-            except FileExistsError:
-                # Try deleting again
-                shutil.rmtree(results_dirname,ignore_errors=True)
-                os.mkdir(results_dirname)
+            except OSError as exc:
+                if exc.errno != errno.EEXIST:
+                    raise
+                else:
+                    # Try deleting again
+                    shutil.rmtree(results_dirname,ignore_errors=True)
+                    os.mkdir(results_dirname)
+                #
             #
         elif not os.path.isdir(results_dirname):
             # The directory doesn't exist, make it now
