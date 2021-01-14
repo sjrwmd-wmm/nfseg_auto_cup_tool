@@ -153,6 +153,11 @@ while continueloop:
                 # This try statement slows it down to finish removing
                 # the directory before trying again to make it.
                 os.mkdir(results_dirname)
+            except WindowsError as wexc: # !!! May need to correct this PMB
+                #WindowsError: [Error 183] Cannot create a file when that file already exists:
+                # Try deleting again
+                shutil.rmtree(results_dirname,ignore_errors=True)
+                os.mkdir(results_dirname)
             except OSError as exc:
                 if exc.errno != errno.EEXIST:
                     raise
@@ -719,13 +724,13 @@ while continueloop:
     all_model_layers = [1,2,3,4,5,6,7]
     model_layers_to_use = [1,3,5]
     
-    list_of_dh_layer_files = process_model_and_lake_heads.main(input_countrol_file_n_path,
-                                                               all_model_layers,
-                                                               model_layers_to_use,
-                                                               phexe_dir,
-                                                               postproc_deffiles_lakef,
-                                                               results_postproc_dh,
-                                                               logfile)
+    dh_layer_dictionary = process_model_and_lake_heads.main(input_countrol_file_n_path,
+                                                            all_model_layers,
+                                                            model_layers_to_use,
+                                                            phexe_dir,
+                                                            postproc_deffiles_lakef,
+                                                            results_postproc_dh,
+                                                            logfile)
     # =======================================
 
 
@@ -757,7 +762,7 @@ while continueloop:
     currentmessage = ('\n\nGenerate simulated head change maps . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    make_ArcGIS_table_from_csv.main(list_of_dh_layer_files,
+    make_ArcGIS_table_from_csv.main(dh_layer_dictionary,
                                     results_postproc_dh,
                                     results_gis,
                                     grid_featureclass,

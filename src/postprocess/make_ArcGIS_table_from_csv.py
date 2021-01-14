@@ -6,7 +6,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Please report errors and corrections to jwg (at) srwmd.org
+# Please report errors and corrections to pbremner (at) sjrwmd.com
 
 import os
 import arcpy
@@ -14,7 +14,11 @@ import arcpy
 from utilities import basic_utilities as bscut
 
 
-def main(list_of_dh_layer_files, currentworkingdir, gis_dir, grid_featureclass, logfile):
+def main(dh_layer_dictionary, currentworkingdir, gis_dir, grid_featureclass, logfile):
+    
+    # Structure of the input dh layer properties:
+    # dh_layer_dictionary = {'datafile':'','joinField':dc(refcolumn),'fieldList':[]}
+    
     
     # Print out the date and time of processing
     currentmessage = ('\tInitializing dh geoprocessing ...\n'
@@ -23,41 +27,16 @@ def main(list_of_dh_layer_files, currentworkingdir, gis_dir, grid_featureclass, 
     with open(logfile,'a') as lf: lf.write(currentmessage)
     
     
-    currentmessage = ('\n\tCreating new dh file geodatabase ...\n')
+    # Set the working environment to the cup.gdb
+    currentmessage = ('\n\tlinking to the cup geodatabase ...\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    
-    
-    # Create PATH to the new geodatabase
-    my_gdb = os.path.join(currentworkingdir, 'dh.gdb')
-    
-    
-    if arcpy.Exists(my_gdb):
-        arcpy.Delete_management(my_gdb)
-    
-    arcpy.CreateFileGDB_management(currentworkingdir, 'dh.gdb')
+    #
+    my_gdb = os.path.join(gis_dir, 'cup.gdb')
     arcpy.env.workspace = my_gdb
-    
-    #cup_gdb = os.path.realpath('..\..\gis\cup.gdb')
-    cup_gdb = os.path.join(gis_dir,'cup.gdb')
-    
     
     # Setup the new set of grid feature class
     #grid_featureclass = "nfseg_v1_1_grid"
-    
-    if arcpy.Exists(grid_featureclass):
-        currentmessage = ("\tThe grid_featureclass exists...deleting now to make new...\n")
-        print (currentmessage)
-        with open(logfile,'a') as lf: lf.write(currentmessage)
-        arcpy.Delete_management(grid_featureclass)
-    
-    
-    currentmessage = ('\tCopying model grid into new file geodatabase ...\n')
-    print (currentmessage)
-    with open(logfile,'a') as lf: lf.write(currentmessage)
-    
-    # might be able to speed this up with Table View or Layer instead of fc copy ????
-    arcpy.CopyFeatures_management(os.path.join(cup_gdb, grid_featureclass), grid_featureclass)
     
     # From ArcGIS Doc:
     # Creates a feature layer from an input feature class or layer file.
@@ -65,72 +44,32 @@ def main(list_of_dh_layer_files, currentworkingdir, gis_dir, grid_featureclass, 
     # persist after the session ends unless the layer is saved to disk or
     # the map document is saved.
     arcpy.MakeFeatureLayer_management(grid_featureclass, "grid_layer")
-    grid_layer = "grid_layer"
-
-    for layername in list_of_dh_layer_files.keys():
-        
-        # Parse the filename and table/field label
-        layerfile = list_of_dh_layer_files[layername][0]
-        dh_label = list_of_dh_layer_files[layername][1]
-        new_field_name = list_of_dh_layer_files[layername][2]
-        
-        currentmessage = ('\tprocessing data for model {}\n'.format(layername) +
-                          '\tfor data file {}\n'.format(layerfile) +
-                          bscut.datetime() + '\n')
-        print (currentmessage)
-        with open(logfile,'a') as lf: lf.write(currentmessage)
-        
-        
-        # Set the name of the file containing the current layer dh data
-        csvFileName = os.path.join(currentworkingdir, layerfile)
-        
-        
-        currentmessage = ('\timport data into an ArcGIS table ...\n')
-        print (currentmessage)
-        with open(logfile,'a') as lf: lf.write(currentmessage)
-        #
-        if arcpy.Exists(dh_label):
-            currentmessage = ('\tDeleting prexisting table {0}\n'.format(dh_label))
-            print (currentmessage)
-            with open(logfile,'a') as lf: lf.write(currentmessage)
-            arcpy.Delete_management(dh_label)
-            
-            currentmessage = ('\tadd csv file with dh data to file geodatabase ...\n')
-            print (currentmessage)
-            with open(logfile,'a') as lf: lf.write(currentmessage)
-        #
-        arcpy.TableToTable_conversion(csvFileName, my_gdb, dh_label)
-        
-        
-        currentmessage = ('\tAdd field for dh values\n')
-        print (currentmessage)
-        with open(logfile,'a') as lf: lf.write(currentmessage)
-        #
-        if arcpy.Exists(new_field_name):
-            pass
-        else:
-            arcpy.AddField_management(grid_featureclass,new_field_name,"DOUBLE")
-
-        currentmessage = ('\tJoin table to feature class ...\n')
-        print (currentmessage)
-        with open(logfile,'a') as lf: lf.write(currentmessage)
-        #
-        arcpy.AddJoin_management(grid_layer,"cell_address_2d",dh_label,"cellAddress2D")
-        
-        currentmessage = ('\tTransfer data from table to feature class\n')
-        print (currentmessage)
-        with open(logfile,'a') as lf: lf.write(currentmessage)
-        #
-        #calc_expression = "!{0}.{0}_asc!".format(dh_label)
-        calc_expression = "!{0}!".format(dh_label)
-        arcpy.CalculateField_management(grid_layer,new_field_name,calc_expression, "PYTHON_9.3")
-        
-        print("    Removing join ...\n")
-        arcpy.RemoveJoin_management(grid_layer,dh_label)
-    #
+    #grid_layer = "grid_layer"
     
-    # Cleanup FeatureLayers in memory
-    if arcpy.Exists("grid_layer"): arcpy.Delete_management("grid_layer")
+    
+    # Convert the data into a TableView
+    currentmessage = ('\timporting data into an ArcGIS table ...\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    #
+    inTable = os.path.join(currentworkingdir, dh_layer_dictionary['datafile']) # The dh data
+    outLocation = my_gdb
+    outTable = 'dh_lyrs'
+    arcpy.TableToTable_conversion(inTable, outLocation, outTable)
+    
+    
+    # Join the TableView to the gdb field based on common field
+    currentmessage = ('\tjoining new table data ...\n')
+    print (currentmessage)
+    with open(logfile,'a') as lf: lf.write(currentmessage)
+    #
+    inFeatures = "grid_layer"
+    joinField = "ref_ROW_COL"
+    joinTable = outTable
+    joinField2 = dh_layer_dictionary['joinField']
+    fieldList = dh_layer_dictionary['fieldList']
+    arcpy.JoinField_management(inFeatures, joinField, joinTable, joinField2, fieldList)
+    
     
     currentmessage = ('\tFinished ArcGIS processing of simulated dh field.\n'
                       + bscut.datetime() + '\n')

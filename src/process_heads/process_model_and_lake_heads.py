@@ -25,6 +25,8 @@ Created on Wed Dec 23 16:14:55 2020
 import os
 import numpy as np
 import subprocess
+from copy import deepcopy as dc
+from collections import OrderedDict
 # Import internal python scripts
 #src_dir = os.path.join(os.getcwd(),'../..')
 #sys.path.insert(0,src_dir)
@@ -195,29 +197,39 @@ def get_input_output_fnames(code_dir, input_countrol_file, runmode, modlayers, l
 # xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 def reformat_dh_modlayers_space2csv(dHfile, uselayers):
     
+    # The output file and reference column for joining data
+    # ========================================
+    outfile_all = 'dh_all_tableFormat.csv'
+    refcolumn = 'row_col'
+    # ========================================
+    
     # Setup a dictionary to define which columns to convert.
     # At the same time, setup a dictionary to define the output filenames.
-    sequencenum = 'SeqNum'
-    relevantcol = {sequencenum:0} # sequence number is always used
-    outfiles = {} # dictionary for output filenames
-    outf = {} # dictionary for the file objects
-    outheader = {} # dictionary for the header line of each output file
-    outfiles_n_labels = {} # dictionary of the outfile names and the associated table labels
+    # ========================================
+    sequencenum = 'SeqNum' # TODO replace these lines after modifying the Fortran output
+    relevantcol = OrderedDict()
+    relevantcol[sequencenum] = 0 # sequence number is always used
+    
+    # dictionary of the outfile and associated fields
+    outfile_n_labels = {'datafile':outfile_all,'joinField':dc(refcolumn),'fieldList':[]}
+    
+    # Add the first column name to the header
+    outheader_all = dc(refcolumn)
+    
     for lay in uselayers:
         label = 'Layer{}'.format(lay)
-        tablelabel = 'dh_lyr{}'.format(lay)
-        fieldlabel = 'dh_layer{}'.format(lay)
-        relevantcol.update({label:0})
-        outfile = 'dh_{}_tableFormat.csv'.format(label)
-        outfiles.update({label:outfile})
-        outf.update({label:'fout{}'.format(lay)})
-        #outheader.update({label:'cellAddress2D,dh_lyr{}\n'.format(lay)})
-        outheader.update({label:'cellAddress2D,dh_lyr{}\n'.format(lay)})
-        outfiles_n_labels.update({label:[outfile,tablelabel,fieldlabel]})
+        fieldlabel = 'dh_lyr{}'.format(lay)
+        relevantcol[label] = 0
+        outfile_n_labels['fieldList'].append(fieldlabel)
+        outheader_all = outheader_all+',{}'.format(fieldlabel)
     #
+    # ========================================
+    
     
     # Read in the data, starting with the header to locate column positions
-    with open(dHfile, 'r') as fin:
+    # Output to file along the way
+    # ========================================
+    with open(dHfile, 'r') as fin, open(outfile_all,'w') as outf_all:
         # Read the first header line to see where things are
         headerin = fin.readline().rstrip().split()
         
@@ -226,15 +238,8 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
             if (col in relevantcol): relevantcol[col] = i
         #
         
-        # Open all the output files and read all the
-        # data lines (as strings) for the relevant columns
-        # Write the data directly to the output files
-        for key,value in outfiles.items():
-            outf[key] = open (value,'w')
-            
-            # Write the header line
-            outf[key].write (outheader[key])
-        #
+        # Add the output header line
+        outf_all.write(outheader_all)
         
         # Read the remaining data lines and put data in proper places as csv
         for line in fin:
@@ -242,20 +247,26 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
             # Split the data just once
             dcolumns = line.rstrip().split()
             
+            # ========================================
+            # Join the row and column integers into a single ID
+            # This will make the first item in the output string
+            dataline = '\n{}_{}'.format(dcolumns[0],dcolumns[1])
+            # ========================================
+            
             # Parse the data line
             for colkey in relevantcol.keys():
                 if (colkey!=sequencenum):
-                    outf[colkey].write ('{},{}\n'.format(dcolumns[relevantcol[sequencenum]],
-                                                         dcolumns[relevantcol[colkey]]))
+                    # Append a column of data
+                    dataline = dataline + ',{}'.format(dcolumns[relevantcol[colkey]])
                 #
             #
+            
+            # Write the data line to file
+            outf_all.write(dataline)
         #
     #  End with
     
-    # Close all the output files
-    for key,fobj in outf.items(): fobj.close()
-    
-    return outfiles_n_labels
+    return outfile_n_labels
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 
