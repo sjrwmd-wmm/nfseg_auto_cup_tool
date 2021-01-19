@@ -8,8 +8,11 @@
 # Written 20200318. PMBremner
 #
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#
+# IMPORT ALL LIBRARIES AND SETUP BASIC GLOBAL PATHs
+#
+#xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
 
-# ---------------   Import standard libraries
 #import sys
 # switch to pathlib library for Python3 where appropriate
 import errno
@@ -62,14 +65,12 @@ from postprocess import make_ArcGIS_table_from_csv
 
 # ---------------   Import process_heads
 from process_heads import process_model_and_lake_heads
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# ================================
 
-# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #
-#                      MAIN
+# MAIN PROGRAM
 #
-# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+#xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
 
 # Print the banner
 mydef.introbanner()
@@ -233,8 +234,14 @@ while continueloop:
         mapproj = 'utm_zone17N_linear_unit_meters_sjr'
     # END if
     # =======================================
-
-
+    
+    
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    #
+    # SETUP THE NEW RESULTS DIRECTORY AND ASSIGN PATHs
+    #
+    #xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
+    
     # Copy the input file to the results directory
     currentmessage = ('\n\nCopy the User input file:\n')
     print (currentmessage)
@@ -263,9 +270,6 @@ while continueloop:
     preproc_cwd = os.path.join(cur_working_dir,'preproc','wellpkg_update')
     #preproc_cwd = os.path.join(cur_working_dir,'results')
     
-    # Postprocessing budget directory
-    postproc_budget_cwd = os.path.join(cur_working_dir,'postproc','budget')
-
     # Postprocessing budget directory
     postproc_dh_cwd = os.path.join(cur_working_dir,'postproc','dh')
 
@@ -431,7 +435,12 @@ while continueloop:
     bscut.deletefile(D_global_budget_out,logfile)
     # -----------------------------------------------------
     
-
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    #
+    # PREPROCESS
+    #
+    #xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
+    
     # =====================================================
     # Process the input csv file
     # =====================================================
@@ -477,9 +486,11 @@ while continueloop:
     # -----------------------------------------------------
 
 
-    # =====================================================
-    # Setup and run MODFLOW
-    # =====================================================
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    #
+    # SETUP AND RUN MODFLOW
+    #
+    #xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
 
     currentmessage = ('\n\nExecuting model . . .\n' +
                       '\t--- first delete old files (if they exist) ---\n')
@@ -511,16 +522,16 @@ while continueloop:
     # -----------------------------------------------------
     
     
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    #
+    # POSTPROCESS
+    #
+    #xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
     
-    # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Copy MODFLOW results to postprocessing directories
-    # TODO: Change the functions to use one copied to the results directory
     if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.lst')
                            ,os.path.join(results_postproc_dQ,'nfseg_auto.lst')
                            ,logfile)): continue
-    #if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.lst')
-    #                       ,os.path.join(postproc_budget_cwd,'nfseg_auto.lst')
-    #                       ,logfile)): continue
     
     if not (bscut.copyfile(os.path.join(model_dir,'nfseg_auto.hds')
                            ,os.path.join(results_postproc_dh,'nfseg_auto.hds')
@@ -546,7 +557,7 @@ while continueloop:
     # Name output files that will be recreated
     budoutput = D_global_budget_out
     rivfluxoutput = os.path.join(results_postproc_budget,'global_river_plus_drain_flux_changes.asc')
-    #rivfluxoutput = os.path.join(postproc_budget_cwd,'global_river_plus_drain_flux_changes.asc')
+    
     
     # Delete files that will be created again, if they exist
     bscut.deletefile(budoutput,logfile)
@@ -636,87 +647,9 @@ while continueloop:
 
 
     # ---------------------------------------
-    # Process heads  # and generate the change in heads report
+    # Process model-wide and area-averaged
+    # lake heads and change in heads
     # ---------------------------------------
-    
-    # ------------------------
-    # !!! These lines can likely be removed since the whole directory is copied over !!!
-#    # Copy specification files needed for the PEST utilities
-#    # these can be removed after the PEST utilities run
-#    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'array_reader.spc')
-#                           ,os.path.join(results_postproc_dh,'array_reader.spc')
-#                           ,logfile)): continue
-#    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'model_ft.spc')
-#                           ,os.path.join(results_postproc_dh,'model_ft.spc')
-#                           ,logfile)): continue
-#    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
-#                           ,os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc')
-#                           ,logfile)): continue
-#    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'files.fig')
-#                           ,os.path.join(results_postproc_dh,'files.fig')
-#                           ,logfile)): continue
-#    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'pest_gwutil_gridSpecificationFile.spc')
-#                           ,os.path.join(results_postproc_dh,'pest_gwutil_gridSpecificationFile.spc')
-#                           ,logfile)): continue
-#    if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,'settings.fig')
-#                           ,os.path.join(results_postproc_dh,'settings.fig')
-#                           ,logfile)): continue
-    #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp'),os.path.join(results_postproc_dh,'twoarray_dh_layer1_nfseg.inp'))
-    #os.symlink(os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp'),    os.path.join(results_postproc_dh,'many2one_layers1_and_3_hds_nfseg.inp'))
-    #os.symlink(os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp'),os.path.join(results_postproc_dh,'twoarray_dh_layer3_nfseg.inp'))
-    # ------------------------
-    
-    
-#    # Postprocess using PEST utilities
-#    
-#    #many2one_infile = os.path.join(postproc_deffiles_dh,'many2one_layers1_and_3_hds_nfseg.inp')
-#    many2one_infile = os.path.join(results_postproc_dh,'many2one_layers1_and_3_hds_nfseg.inp')
-#    many2one_log = os.path.join(results_postproc_dh,'many2one.log')
-#    bscut.deletefile(many2one_log, logfile)
-#    if not bscut.many2one(src_postprocess_dir,many2one_infile,many2one_log,results_postproc_dh,logfile): continue
-#    #many2one < many2one_layers1_and_3_hds_nfseg.inp > many2one_log
-#    
-#    
-#    #twoarray_infile_lay1 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer1_nfseg.inp')
-#    #twoarray_infile_lay3 = os.path.join(postproc_deffiles_dh,'twoarray_dh_layer3_nfseg.inp')
-#    twoarray_infile_lay1 = os.path.join(results_postproc_dh,'twoarray_dh_layer1_nfseg.inp')
-#    twoarray_infile_lay3 = os.path.join(results_postproc_dh,'twoarray_dh_layer3_nfseg.inp')
-#    twoarray_lay1_log = os.path.join(results_postproc_dh,'twoarray_dh_layer1.log')
-#    twoarray_lay3_log = os.path.join(results_postproc_dh,'twoarray_dh_layer3.log')
-#    bscut.deletefile(twoarray_lay1_log,logfile)
-#    bscut.deletefile(twoarray_lay3_log,logfile)
-#    if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay1,twoarray_lay1_log,results_postproc_dh,logfile): continue
-#    if not bscut.twoarray(src_postprocess_dir,twoarray_infile_lay3,twoarray_lay3_log,results_postproc_dh,logfile): continue
-#    #twoarray < twoarray_dh_layer1_nfseg.inp > twoarray_lay1_log
-#    #twoarray < twoarray_dh_layer3_nfseg.inp > twoarray_lay3_log
-    
-    # ------------------------
-    # !!! Temporarily remove the deletion of these specification files !!!
-#    # Delete the specification files from the results dir
-#    bscut.deletefile(os.path.join(results_postproc_dh,'array_reader.spc'),logfile)
-#    bscut.deletefile(os.path.join(results_postproc_dh,'model_ft.spc'),logfile)
-#    bscut.deletefile(os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc'),logfile)
-#    bscut.deletefile(os.path.join(results_postproc_dh,'files.fig'),logfile)
-#    bscut.deletefile(os.path.join(results_postproc_dh,'pest_gwutil_gridSpecificationFile.spc'),logfile)
-#    bscut.deletefile(os.path.join(results_postproc_dh,'settings.fig'),logfile)
-#    # ------------------------
-#    
-#    # TODO: These deletions need to be moved into the ReadModflowFloatArrays function
-#    dh_lyr1_tableFormat = os.path.join(results_postproc_dh,'dh_lyr1_tableFormat.csv')
-#    dh_lyr3_tableFormat = os.path.join(results_postproc_dh,'dh_lyr3_tableFormat.csv')
-#    bscut.deletefile(dh_lyr1_tableFormat,logfile)
-#    bscut.deletefile(dh_lyr3_tableFormat,logfile)
-#    
-#    #array_spec_in = os.path.join(postproc_deffiles_dh,'array_reader.spc')
-#    #array_file_names_in = os.path.join(postproc_deffiles_dh,'sim_head_arrays_file_names.asc')
-#    array_spec_in = os.path.join(results_postproc_dh,'array_reader.spc')
-#    array_file_names_in = os.path.join(results_postproc_dh,'sim_head_arrays_file_names.asc')
-#    
-#    currentmessage = ('\n\nStarting ReadModflowFloatArrays.py . . .\n')
-#    print (currentmessage)
-#    with open(logfile,'a') as lf: lf.write(currentmessage)
-#    ReadModflowFloatArrays.main(results_postproc_dh, array_spec_in, array_file_names_in, logfile)
-    
     
     currentmessage = ('\n\nProcessing model-wide and area-averaged lake heads . . .\n')
     print (currentmessage)
@@ -732,8 +665,8 @@ while continueloop:
                                                             results_postproc_dh,
                                                             logfile)
     # =======================================
-
-
+    
+    
     # ---------------------------------------
     # Update and finalize the map project in GIS dir
     #
@@ -773,8 +706,12 @@ while continueloop:
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # =======================================
-
-    # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    #
+    # FINALIZE CURRENT RUN
+    #
+    #xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
 
 
     # =====================================================
@@ -801,6 +738,7 @@ while continueloop:
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # -----------------------------------------------------
+    
 # END while over continueloop
 #pause ()
 #exit()
@@ -808,4 +746,4 @@ while continueloop:
 #
 # END SCRIPT
 #
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
