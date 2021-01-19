@@ -206,9 +206,8 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
     # Setup a dictionary to define which columns to convert.
     # At the same time, setup a dictionary to define the output filenames.
     # ========================================
-    sequencenum = 'SeqNum' # TODO replace these lines after modifying the Fortran output
     relevantcol = OrderedDict()
-    relevantcol[sequencenum] = 0 # sequence number is always used
+    relevantcol[refcolumn] = 0 # the reference column is always used
     
     # dictionary of the outfile and associated fields
     outfile_n_labels = {'datafile':outfile_all,'joinField':dc(refcolumn),'fieldList':[]}
@@ -217,7 +216,7 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
     outheader_all = dc(refcolumn)
     
     for lay in uselayers:
-        label = 'Layer{}'.format(lay)
+        label = 'dh_lyr{}'.format(lay)
         fieldlabel = 'dh_lyr{}'.format(lay)
         relevantcol[label] = 0
         outfile_n_labels['fieldList'].append(fieldlabel)
@@ -231,7 +230,7 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
     # ========================================
     with open(dHfile, 'r') as fin, open(outfile_all,'w') as outf_all:
         # Read the first header line to see where things are
-        headerin = fin.readline().rstrip().split()
+        headerin = fin.readline().rstrip().split(',')
         
         # Find the relevant columns -- record the column position
         for i,col in enumerate(headerin):
@@ -245,17 +244,18 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
         for line in fin:
             
             # Split the data just once
-            dcolumns = line.rstrip().split()
+            dcolumns = line.rstrip().split(',')
             
             # ========================================
             # Join the row and column integers into a single ID
             # This will make the first item in the output string
-            dataline = '\n{}_{}'.format(dcolumns[0],dcolumns[1])
+            #dataline = '\n{}_{}'.format(dcolumns[0],dcolumns[1])
+            dataline = '\n{}'.format(dcolumns[0])
             # ========================================
             
             # Parse the data line
             for colkey in relevantcol.keys():
-                if (colkey!=sequencenum):
+                if (colkey!=refcolumn):
                     # Append a column of data
                     dataline = dataline + ',{}'.format(dcolumns[relevantcol[colkey]])
                 #
@@ -265,6 +265,36 @@ def reformat_dh_modlayers_space2csv(dHfile, uselayers):
             outf_all.write(dataline)
         #
     #  End with
+    
+    return outfile_n_labels
+# ooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+
+# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+#
+# Reformat space delimited dh data for each model
+# layer as csv.
+#
+# Output new csv files for each model layer.
+#
+# xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
+def organize_dh_modlayers(dHfile, uselayers):
+    
+    # The output file and reference column for joining data
+    # ========================================
+    refcolumn = 'row_col'
+    # ========================================
+    
+    
+    # dictionary of the outfile and associated fields
+    outfile_n_labels = {'datafile':dHfile,'joinField':dc(refcolumn),'fieldList':[]}
+    
+    for lay in uselayers:
+        fieldlabel = 'dh_lyr{}'.format(lay)
+        outfile_n_labels['fieldList'].append(fieldlabel)
+    #
+    
     
     return outfile_n_labels
 # ooooooooooooooooooooooooooooooooooooooooooooooooooooo
@@ -318,7 +348,8 @@ def main(input_countrol_file, modlayers, uselayers, code_dir, postproc_deffiles_
     #       be the equivalent of the calc_dh program output
     #       but converting as space-to-comma delimited.
     #---------------------------------------------------
-    outfiles_list = reformat_dh_modlayers_space2csv(dHfile, uselayers)
+    #outfiles_list = reformat_dh_modlayers_space2csv(dHfile, uselayers)
+    outfiles_list = organize_dh_modlayers(dHfile, uselayers)
     
     
     currentmessage = ('\n\t. . . Done processing heads!\n\n')

@@ -318,7 +318,6 @@ MODULE modflowsubs
         
         
         ! Define deltaH file variables
-        integer ( I32 ) :: seqnum
         real ( R32 ) :: head_diff
         character (:), allocatable :: layerstr
         
@@ -340,15 +339,15 @@ MODULE modflowsubs
         END IF
         
         ! Write out a header
-        WRITE (fout,'(A)',advance='no') "Row Col SeqNum"
+        WRITE (fout,'(A)',advance='no') "row_col"
         DO cur_lay=1,nlay,1
             ! Make the layer value a string for easier formatting
             layerstr = itoa(cur_lay)
             
             IF (cur_lay .LT. nlay) THEN
-                WRITE (fout,'(1X,A,A)',advance='no') "Layer",layerstr
+                WRITE (fout,'(",",A,A)',advance='no') "dh_lyr",layerstr
             ELSE
-                WRITE (fout,'(1X,A,A)',advance='yes') "Layer",layerstr
+                WRITE (fout,'(",",A,A)',advance='yes') "dh_lyr",layerstr
             END IF
         END DO
         
@@ -358,17 +357,14 @@ MODULE modflowsubs
                     ! Calculate dH
                     head_diff = hds(per_b, stp_b, cur_lay, cur_col, cur_row) - hds(per_a, stp_a, cur_lay, cur_col, cur_row)
                     
-                    ! Calculate the sequence number for easy GIS incorporation
-                    seqnum = (cur_row-1)*ncol + cur_col
-                    
                     ! Write output
-                    ! NOTE Only print the row, column, sequence number once for each data row
+                    ! NOTE Only print the row and column once for each data row
                     IF (cur_lay .EQ. 1) THEN
-                        WRITE (fout,'(I0,1X,I0,1X,I0,1X,G0.6)',advance='no') cur_row, cur_col, seqnum, head_diff
+                        WRITE (fout,'(I0,"_",I0,",",G0.6)',advance='no') cur_row, cur_col, head_diff
                     ELSE IF (cur_lay .EQ. nlay) THEN
-                        WRITE (fout,'(1X,G0.6)',advance='yes') head_diff
+                        WRITE (fout,'(",",G0.6)',advance='yes') head_diff
                     ELSE
-                        WRITE (fout,'(1X,G0.6)',advance='no') head_diff
+                        WRITE (fout,'(",",G0.6)',advance='no') head_diff
                     END IF
                 END DO
             END DO
@@ -661,7 +657,6 @@ PROGRAM MAIN
     ! Define deltaH file variables
     integer ( I32 ) :: per_b = 2, stp_b = 1, per_a = 1, stp_a = 1
     character ( len = 100 ) :: deltaH_filename_prefix, deltaH_filename
-    character ( len = 15 ) :: layer_suffix="_layer_", suffix=".txt"
     
     
     ! Lake definitions
@@ -1063,9 +1058,7 @@ PROGRAM MAIN
     CLOSE(fin)
     
     ! Append prefix and suffixes to create the output filename
-    deltaH_filename = &
-        ADJUSTL(TRIM(deltaH_filename_prefix)) &
-        //ADJUSTL(TRIM(layer_suffix))//"AllLayers"//ADJUSTL(TRIM(suffix))
+    deltaH_filename = ADJUSTL(TRIM(deltaH_filename_prefix))//"_all_layers.csv"
     
     WRITE(output_unit,1000,advance='yes') "COMPLETE" &
           , "Number of Input Control File lines   ",filelinecnt &
