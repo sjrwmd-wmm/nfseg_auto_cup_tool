@@ -51,7 +51,7 @@ from utilities import mydefinitions as mydef
 
 # ---------------   Import preprocess
 from preprocess import process_withdrawal_point_input_file
-from preprocess import update_wellpkg_nfseg_modified
+from preprocess import update_wellpkg_nfseg_v3
 from preprocess import create_two_stress_period_wellpkg_input_file
 
 # ---------------   Import postprocess
@@ -388,15 +388,17 @@ while continueloop:
     os.mkdir(results_gisproj)
     # Define the name for a new set of grid feature classes
     # TODO: this name either needs to be generic or be part of input file
-    #grid_featureclass = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
-    grid_featureclass = 'nfseg_v1_1_grid'
+    #grid_featureclass_name = os.path.join(results_postproc_dh,'nfseg_v1_1_grid')
+    grid_featureclass_name = 'nfseg_v1_1_grid'
+    grid_featureclass_proj = os.path.join(results_gisproj,(grid_featureclass_name+'.prj'))
+    mapprojection = os.path.join(results_gisproj,(mapproj+'.prj'))
     #
     # Copy relevant projection files to the new results directory
     if not (bscut.copyfile(os.path.join(gis_ref_projections,(mapproj+'.prj')),
-                           os.path.join(results_gisproj,(mapproj+'.prj')),
+                           mapprojection,
                            logfile)): continue
-    if not (bscut.copyfile(os.path.join(gis_ref_projections,(grid_featureclass+'.prj')),
-                           os.path.join(results_gisproj,(grid_featureclass+'.prj')),
+    if not (bscut.copyfile(os.path.join(gis_ref_projections,(grid_featureclass_name+'.prj')),
+                           grid_featureclass_proj,
                            logfile)): continue
     
     # _____________________________________________________
@@ -463,13 +465,16 @@ while continueloop:
     currentmessage = ('\nStarting process_withdrawal_point_input_file.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    process_withdrawal_point_input_file.main(INPUT_FILE,results_preproc_wellpkg_update,mydef.ConvFactors().mgd2cfd,logfile)
+    process_withdrawal_point_input_file.main(INPUT_FILE,results_preproc_wellpkg_update,
+                                             mydef.ConvFactors().mgd2cfd,logfile)
 
     currentmessage = ('\nStarting update_wellpkg_nfseg_modified.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # Argument provides the correct map projection
-    update_wellpkg_nfseg_modified.main(mapproj, results_preproc_wellpkg_update, results_gis, logfile)
+    update_wellpkg_nfseg_modified_v3.main(mapprojection, results_preproc_wellpkg_update,
+                                          results_gis, grid_featureclass_name, grid_featureclass_proj,
+                                          logfile)
 
 
 
@@ -698,7 +703,7 @@ while continueloop:
     make_ArcGIS_table_from_csv.main(dh_layer_dictionary,
                                     results_postproc_dh,
                                     results_gis,
-                                    grid_featureclass,
+                                    grid_featureclass_name,
                                     logfile)
 
 
