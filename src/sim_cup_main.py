@@ -51,7 +51,7 @@ from utilities import mydefinitions as mydef
 
 # ---------------   Import preprocess
 from preprocess import process_withdrawal_point_input_file
-from preprocess import update_wellpkg_nfseg_v3
+from preprocess import update_wellpkg_nfseg_v3 as update_wellpkg_nfseg
 from preprocess import create_two_stress_period_wellpkg_input_file
 
 # ---------------   Import postprocess
@@ -472,9 +472,9 @@ while continueloop:
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     # Argument provides the correct map projection
-    update_wellpkg_nfseg_modified_v3.main(mapprojection, results_preproc_wellpkg_update,
-                                          results_gis, grid_featureclass_name, grid_featureclass_proj,
-                                          logfile)
+    update_wellpkg_nfseg.main(mapprojection, results_preproc_wellpkg_update,
+                              results_gis, grid_featureclass_name, grid_featureclass_proj,
+                              logfile)
 
 
 
