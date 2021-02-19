@@ -59,7 +59,7 @@ from postprocess import parse_modflow_listing_file_budget
 from postprocess import river_drain_and_ghb_flux_changes
 from postprocess import sim_q_reach_3d_auto
 from postprocess import sum_sim_q_reach
-from postprocess import create_delta_q_report
+from postprocess import create_delta_q_report_PMB
 #from postprocess import ReadModflowFloatArrays
 from postprocess import make_ArcGIS_table_from_csv
 
@@ -642,7 +642,7 @@ while continueloop:
 #                               gaged_reach_flux_out,
 #                               gaged_flux_sum_output,
 #                               DQ_summary_out)
-    create_delta_q_report.main(logfile,
+    create_delta_q_report_PMB.main(logfile,
                                results_postproc_dQ,
                                cup_id_n_rate,
                                gaged_reach_flux_out,
