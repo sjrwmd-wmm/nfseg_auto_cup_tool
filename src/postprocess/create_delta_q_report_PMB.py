@@ -133,9 +133,9 @@ class ContributingGages(object):
             
             flux_change = flux_sp2 - flux_sp1
             if abs(flux_sp1) > 1.e-10:
-                flux_change_as_fraction_of_flow = flux_change/flux_sp1
+                flux_change_as_fraction_of_flow = flux_change / flux_sp1
             else:
-                flux_change_as_fraction_of_flow = -1.2345e30
+                flux_change_as_fraction_of_flow = 0.0
             
             flux_change_fraction_of_cup = flux_change / self.cup_withdrawal_cfs
             output_tuple_for_appending = (flux_sp1, flux_sp2, flux_change, flux_change_as_fraction_of_flow, flux_change_fraction_of_cup)
