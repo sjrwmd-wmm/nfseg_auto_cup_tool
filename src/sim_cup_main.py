@@ -363,6 +363,19 @@ while continueloop:
     if not (bscut.copyfile(os.path.join(postproc_deffiles_dh,input_countrol_file),
                            input_countrol_file_n_path,
                            logfile)): continue
+    #
+    # Copy some Reference Lake list files to the output directory for the User
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_lakef,'WaterBodiesFromJohnGoodList.csv'),
+                           os.path.join(results_postproc_dh,'WaterBodiesFromJohnGoodList.csv'),
+                           logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_lakef,'WaterBodiesFromTreyList.csv'),
+                           os.path.join(results_postproc_dh,'WaterBodiesFromTreyList.csv'),
+                           logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_lakef,'WaterBodiesFromVitoList.csv'),
+                           os.path.join(results_postproc_dh,'WaterBodiesFromVitoList.csv'),
+                           logfile)): continue
+    #
+    
     
     # dQ
     os.mkdir(results_postproc_dQ)
