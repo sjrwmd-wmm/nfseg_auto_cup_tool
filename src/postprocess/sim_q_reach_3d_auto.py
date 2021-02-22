@@ -76,7 +76,7 @@
 # Import libraries
 import time
 import shelve
-import sys
+#import sys
 import os
 # Import internal python scripts
 from utilities import basic_utilities as bscut
@@ -87,6 +87,7 @@ class GagedReaches:
     def __init__(self, reach_definition_file_name, logfile):
         self.define_gaged_reaches_by_2d_reach_ids(reach_definition_file_name)
         #self.number_of_stress_periods = number_of_stress_periods
+        self.logfile = logfile
 
     def define_gaged_reaches_by_2d_reach_ids(self, reach_definition_file_name):
         """ Read combinations of gaged-reach identifier and boundary-condition
@@ -137,7 +138,7 @@ class GagedReaches:
             except Exception as exc:
                 error_message = ("can't convert {0} to an integer".format(line_list[2]))
                 
-                with open(logfile,'a') as lf:
+                with open(self.logfile,'a') as lf:
                     lf.write(error_message)
                     lf.write('{}\n'.format(exc))
                 
@@ -219,7 +220,7 @@ class GagedReaches:
                 
                 error_message = ("key, ({0},{1},{2},{3}) not found! Halting sim_q_reach.py without writing output.".format(bc_type, bc_3d_id, stress_period, time_step))
                 
-                with open(logfile,'a') as lf:
+                with open(self.logfile,'a') as lf:
                     lf.write(error_message)
                     lf.write('{}\n'.format(exc))
                 
@@ -235,7 +236,7 @@ class GagedReaches:
                 
                 error_message = ("key, ({0},{1},{2},{3}) not found! Halting sim_q_reach.py without writing output.".format(bc_type, bc_3d_id, stress_period, time_step))
                 
-                with open(logfile,'a') as lf:
+                with open(self.logfile,'a') as lf:
                     lf.write(error_message)
                     lf.write('{}\n'.format(exc))
                 
@@ -308,6 +309,7 @@ class ModflowListing:
         self.bc_reach_list = {}
         self.init_bc_reach_list()
         self.bc_reach_fluxes = {}
+        self.logfile = logfile
         self.openFiles(modflow_listing_file_name)
 
     def init_bc_reach_list(self):
@@ -370,7 +372,7 @@ class ModflowListing:
             line = self.inFile.readline()
             if not line:
                 error_message = ('reached end of file while reading GHB fluxes')
-                with open(logfile,'a') as lf: lf.write(error_message)
+                with open(self.logfile,'a') as lf: lf.write(error_message)
                 raise ValueError(error_message)
             elif line[:9] != ' BOUNDARY':
                 break
@@ -386,7 +388,7 @@ class ModflowListing:
             line = self.inFile.readline()
             if not line:
                 error_message = ('reached end of file while reading DRAIN fluxes')
-                with open(logfile,'a') as lf: lf.write(error_message)
+                with open(self.logfile,'a') as lf: lf.write(error_message)
                 raise ValueError(error_message)
             elif line[:6] != ' DRAIN':
                 break
@@ -402,7 +404,7 @@ class ModflowListing:
             line = self.inFile.readline()
             if not line:
                 error_message = ('reached end of file while reading RIVER fluxes')
-                with open(logfile,'a') as lf: lf.write(error_message)
+                with open(self.logfile,'a') as lf: lf.write(error_message)
                 raise ValueError(error_message)
             elif line[:6] != ' REACH':
                 break
