@@ -285,12 +285,11 @@ while continueloop:
     input_def_file_loc = os.path.join(cur_working_dir,'input_and_definition_files')
     
     preproc_deffiles_dir = os.path.join(input_def_file_loc,'preproc')
+    #
     preproc_deffiles_wellpkg_update = os.path.join(preproc_deffiles_dir,'wellpkg_update.zip')
     
     postproc_deffiles_dir = os.path.join(input_def_file_loc,'postproc')
-    #postproc_deffiles_dh_zip = os.path.join(postproc_deffiles_dir,'dh.zip')
-    postproc_deffiles_dQ_zip = os.path.join(postproc_deffiles_dir,'dQ.zip')
-    
+    #
     postproc_deffiles_budget = os.path.join(postproc_deffiles_dir,'budget')
     postproc_deffiles_dh = os.path.join(postproc_deffiles_dir,'dh')
     postproc_deffiles_dQ = os.path.join(postproc_deffiles_dir,'dQ')
@@ -353,12 +352,11 @@ while continueloop:
     # --------------------
     os.mkdir(results_postproc)
     
+    # Budget
     os.mkdir(results_postproc_budget)
     
+    # dH
     os.mkdir(results_postproc_dh)
-    #with zipfile.ZipFile(postproc_deffiles_dh_zip,'r') as zip_ref:
-    #    zip_ref.extractall(results_postproc)
-    ##
     # Copy the input control file
     input_countrol_file = 'hds_processing_control_file.txt'
     input_countrol_file_n_path = os.path.join(results_postproc_dh,input_countrol_file)
@@ -366,10 +364,22 @@ while continueloop:
                            input_countrol_file_n_path,
                            logfile)): continue
     
-    #os.mkdir(results_postproc_dQ)
-    with zipfile.ZipFile(postproc_deffiles_dQ_zip,'r') as zip_ref:
-        zip_ref.extractall(results_postproc)
-    #
+    # dQ
+    os.mkdir(results_postproc_dQ)
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dQ,'gaged_reach_definitions.csv'),
+                           os.path.join(results_postproc_dQ,'gaged_reach_definitions.csv'),
+                           logfile)): continue
+    # The shelf file can be referenced from the deffiles location -- no need to copy
+    #if not (bscut.copyfile(os.path.join(postproc_deffiles_dQ,'lookup_bc_reach_ids_auto.shelf'),
+    #                       os.path.join(results_postproc_dQ,'lookup_bc_reach_ids_auto.shelf'),
+    #                       logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dQ,'station_number_and_names_20210218.csv'),
+                           os.path.join(results_postproc_dQ,'station_number_and_names_20210218.csv'),
+                           logfile)): continue
+    if not (bscut.copyfile(os.path.join(postproc_deffiles_dQ,'upstream_gage_numbers.csv'),
+                           os.path.join(results_postproc_dQ,'upstream_gage_numbers.csv'),
+                           logfile)): continue
+    
     
     # ---------------
     #      GIS
@@ -606,16 +616,11 @@ while continueloop:
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
     gaged_reach_flux_out = os.path.join(results_postproc_dQ,'gaged_reach_fluxes.asc')
-#    sim_q_reach_3d_auto.main(listfile,
-#                             mydef.ConvFactors().sec2day,
-#                             logfile,
-#                             postproc_deffiles_dQ,
-#                             results_postproc_dQ,
-#                             gaged_reach_flux_out)
+    
     sim_q_reach_3d_auto.main(listfile,
                              mydef.ConvFactors().sec2day,
                              logfile,
-                             results_postproc_dQ,
+                             postproc_deffiles_dQ,
                              results_postproc_dQ,
                              gaged_reach_flux_out)
     
