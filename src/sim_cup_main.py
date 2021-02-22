@@ -26,14 +26,29 @@ import shutil
 
 # ---------------   Set some immediate working directories
 # Get the current working directory
-cur_working_dir = '/'.join(os.getcwd().split('\\'))
+#cur_working_dir = '/'.join(os.getcwd().split('\\'))
 #cur_working_dir = os.path.join(*os.getcwd().split('\\')) # the * unpacks the list
+#!----
+cur_working_dir=os.getcwd()
+if (cur_working_dir[-1]=='\\' or cur_working_dir[-1]=='/'):
+    # First time gets rid of the trailing slashes
+    ParentDir=os.path.dirname(cur_working_dir)
+    
+    # Second time finally strips off the last directory name in the PATH
+    ParentDir=os.path.dirname(ParentDir)
+else:
+    # No trailing slashes -- first time gives the parent directory
+    ParentDir=os.path.dirname(cur_working_dir)
+#
+
+#!----
 
 # Define the results parent directory
-results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
+results_main_dir = os.path.abspath(ParentDir)
+#results_main_dir = os.path.abspath(os.path.join(cur_working_dir,os.pardir))
 #results_main_dir = os.path.join(*os.path.split(cur_working_dir)[:-1])
 
-# Find way to src directory  !!! PMB !!! Remove these lines when ready
+# Find way to src directory  !!! PMB !!! Remove commented lines when ready
 src_dir = os.path.join(cur_working_dir,'src')
 #src_utilities_dir = os.path.join(src_dir,'utilities')
 #src_preprocess_dir = os.path.join(src_dir,'preprocess')
