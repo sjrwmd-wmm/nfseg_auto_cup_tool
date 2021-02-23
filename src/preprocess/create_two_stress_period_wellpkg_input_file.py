@@ -106,7 +106,7 @@ class WellPkgInputFile(object):
         output_file.writelines(self.new_wells_records)
         output_file.close()
 
-def main(output_file_name, workingdir, logfile):
+def main(output_file_name, preproc_deffiles_wellpkg_update, workingdir, logfile):
     """ Program for creating a two-stress period Well Package input file, by:
             (1) reading an existing Well Package input file with one stress
                 period,
@@ -122,8 +122,8 @@ def main(output_file_name, workingdir, logfile):
     ##output_file_name = 'nfseg.wel'
     #output_file_name = sys.argv[1]
     wellpkg = WellPkgInputFile(new_injection_wells = False)
-    wellpkg.parse_header(os.path.join(workingdir,'wellpkg_header_nfseg.asc'))
-    wellpkg.parse_stress_period(os.path.join(workingdir,'wellpkg_stress_period_01_records_nfseg.asc'))
+    wellpkg.parse_header(os.path.join(preproc_deffiles_wellpkg_update,'wellpkg_header_nfseg.asc'))
+    wellpkg.parse_stress_period(os.path.join(preproc_deffiles_wellpkg_update,'wellpkg_stress_period_01_records_nfseg.asc'))
     wellpkg.parse_new_wells_input_file(os.path.join(workingdir,'wells_to_add.csv'))
     wellpkg.update_max_active_wells()
     wellpkg.create_two_stress_period_input_file(output_file_name)

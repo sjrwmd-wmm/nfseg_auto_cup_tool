@@ -23,6 +23,13 @@ Expand-Archive -LiteralPath model_update.zip -DestinationPath .\ -Force
 #ls
 #ls ..\
 
+echo ""
+echo "Unpacking the preprocess directory directory . . ."
+echo ""
+
+# Expand the model data dir
+Expand-Archive -LiteralPath .\input_and_definition_files\preproc\wellpkg_update.zip -DestinationPath .\input_and_definition_files\preproc\ -Force
+
 
 #echo "Process complete!"
 echo ""

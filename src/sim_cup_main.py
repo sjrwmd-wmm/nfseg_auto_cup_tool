@@ -301,7 +301,8 @@ while continueloop:
     
     preproc_deffiles_dir = os.path.join(input_def_file_loc,'preproc')
     #
-    preproc_deffiles_wellpkg_update = os.path.join(preproc_deffiles_dir,'wellpkg_update.zip')
+    #preproc_deffiles_wellpkg_update = os.path.join(preproc_deffiles_dir,'wellpkg_update.zip')
+    preproc_deffiles_wellpkg_update = os.path.join(preproc_deffiles_dir,'wellpkg_update')
     
     postproc_deffiles_dir = os.path.join(input_def_file_loc,'postproc')
     #
@@ -357,10 +358,10 @@ while continueloop:
     # -------------------
     os.mkdir(results_preproc)
     
-    #os.mkdir(results_preproc_wellpkg_update)
-    with zipfile.ZipFile(preproc_deffiles_wellpkg_update,'r') as zip_ref:
-        zip_ref.extractall(results_preproc)
-    #
+    os.mkdir(results_preproc_wellpkg_update)
+    #with zipfile.ZipFile(preproc_deffiles_wellpkg_update,'r') as zip_ref:
+    #    zip_ref.extractall(results_preproc)
+    ##
     
     # --------------------
     #       Postproc
@@ -519,7 +520,10 @@ while continueloop:
     currentmessage = ('\nStarting create_two_stress_period_wellpkg_input_file.py . . .\n')
     print (currentmessage)
     with open(logfile,'a') as lf: lf.write(currentmessage)
-    create_two_stress_period_wellpkg_input_file.main(wel_file,results_preproc_wellpkg_update,logfile)
+    create_two_stress_period_wellpkg_input_file.main(wel_file,
+                                                     preproc_deffiles_wellpkg_update,
+                                                     results_preproc_wellpkg_update,
+                                                     logfile)
 
     #    Finished creating well pkg.
 
