@@ -63,7 +63,7 @@ Major upgrade from version 1.1
 - First release on GitHub
 
 ### Specific updates and fixes
-Please the commits history for a full list of changes
+Please see the commits history for a full list of changes
 
 ## Version 1.1 -- Oct 2019
 Original version 1.0 was no longer working. Updated portions of the code to bring back up to a working state. Some input files were updated. No major changes in workflow from version 1.0.
