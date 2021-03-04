@@ -3,6 +3,9 @@ This repository hosts the District's Regulatory automated tool to calculate chan
 groundwater availability and other drawdown effects due to well additions or deletions
 (cup - consumptive use permit) within the NFSEG groundwater model.
 
+## Disclaimer:
+The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
+
 ## Installation and Setup:
 Download the zip file.
 After the download is complete, unzip the tool to a directory on the local machine’s hard drive.
