@@ -1,6 +1,10 @@
 # Release Notes
 This document contains a running summary of changes with each release version. Ordered from the most recent version to the oldest.
 
+## Version 3.1 -- 29 Mar 2021
+
+This repository includes updates to the Users reference guide. Aside from this update, this repository and all associated codes within are identical to release Version 3.0. 
+
 ## Version 3.0 -- 26 Feb 2021
 
 This repository was migrated from the SJR District GitHub server to this current (cloud) server 24 Feb 2021. The full **commit** and **issues** histories were preserved, though the first release *v2.0* was unable to be migrated. The first release is archived on a SJR District network drive system.
