@@ -69,7 +69,7 @@ def main(dh_layer_dictionary, currentworkingdir, gis_dir, grid_featureclass, log
     joinField2 = dh_layer_dictionary['joinField']
     fieldList = dh_layer_dictionary['fieldList']
     arcpy.JoinField_management(inFeatures, joinField, joinTable, joinField2, fieldList)
-    
+    arcpy.Delete_management("grid_layer")
     
     currentmessage = ('\tFinished ArcGIS processing of simulated dh field.\n'
                       + bscut.datetime() + '\n')
