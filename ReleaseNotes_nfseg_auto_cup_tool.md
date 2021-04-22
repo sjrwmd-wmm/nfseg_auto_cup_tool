@@ -1,6 +1,10 @@
 # Release Notes
 This document contains a running summary of changes with each release version. Ordered from the most recent version to the oldest.
 
+## Version 3.2 -- 22 Apr 2021
+
+This release includes a fix to the python script 'make_ArcGIS_table_from_csv.py' and now enables the user to run successive user input files within the same command prompt session. Aside from this update, this repository and all associated codes within are identical to release Version 3.1.
+
 ## Version 3.1 -- 29 Mar 2021
 
 This repository includes updates to the Users reference guide. Aside from this update, this repository and all associated codes within are identical to release Version 3.0. 
